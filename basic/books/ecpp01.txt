@@ -1,0 +1,109 @@
+#1 Accustoming Yourself to C++
+
+## 01 View C++ as a federation of  languages
+C语言处理异常的方式
+1.abort() exit()
+2.assert
+3.errno全局变量
+4.goto
+5.setjmp longjmp
+相对于C的改变 异常+模板+STL
+
+多重泛型编程语言 multiparadigm programming language
+过程形式procedural+面向对象object-oriented+函数形式functional+泛型形式generic+元编程形式metaprogramming
+
+四个次语言
+C + Object-Oriented C++ + Template C++ + STL
+对内置（C）类型 pass-by-value比pass-by-reference高效
+STL的迭代器和函数对象都是在C上塑造出来的
+
+
+## 02 Prefer consts, enums, and inlines to #defines
+例#define hss_bd 420 报错时提示420 难定位 define会导致多份420的目标码
+const int hss_bd = 420; 编译器肯定能看到
+const char* const name = "hss";
+class专属变量 static const int Num = 10;
+#define不重视作用域 也没有封装性
+
+enum hack 当编译器不允许static整型class常量完成初值设定
+enum {NumManU=1899};
+int scores[NumManU];
+取const地址合法 取enum和取define地址不合法
+enum可避免pointer或reference指向整数常量
+
+宏没有函数调用的额外开销
+宏的误用 define CALL_MAX(a,b) f((a)>(b)? (a):(b))
+CALL_MAX(++a,++b);
+宏为什么实参要括号？ #define COM(a,b) a*b     COM(1+2,3+4)=1+2*3+4
+
+形似函数的宏用inline函数替换define
+template<Typename T>
+inline void CALL_MAX(const T& a, const T& b)
+{
+    f(a>b? a:b);
+}
+
+
+## 03 Use const whenever possible
+const char* p = aa; // const data
+char const * p = aa; // const data
+char* const p = aa; // const pointer
+const char* const p = aa; // const pointer, const data
+const在*左边，被指物是常量；const在*右边，指针是常量
+
+迭代器如T*指针，const迭代器如T* const指针
+const std::vector<int>::iterator iter = vec.begin(); // const pointer
+*iter = 10; // ok
+++iter; // error
+std::vector<int>::const_iterator cIter = vec.begin(); // const data
+*cIter = 10; // error
+++cIter; // ok
+
+const A operator* (const A& lhs, const A& rhs); 左const为避免 （a*b）=c;
+
+以pass by reference-to-const传递对象
+const成员函数不能修改类的数据成员
+class A {
+private：
+    mutable int a；
+    mutable int b；
+}
+
+void A:func() const {
+    a = 1; // mutable则可变
+    b = 2;
+}
+
+const char& operator[] (std::size_t position) const {
+    ... return text[position];
+}
+char& operator[] (std::size_t position) {
+    return const_cast<char&>(               // 将op[]返回值的const移除    第二次转型则是从const operator[]的返回值中移除const
+        static_cast<const TextBlock&>(*this) // 为*this加上const调用const op[]  第一次转型用来为*this添加const
+            [position]
+    );
+}
+
+const帮编译器测出错误用法
+non-const成员函数调用const成员函数，来避免代码重复
+
+
+##04 Make Sure that objects are initialized before they're used
+对象的成员变量的初始化发生在进入构造函数本体之前
+推荐写法
+A::A(const B& b, const C& c, const D& d)
+    :m_b(b), m_c(c), m_d(d), m_e(0)
+{ }
+
+无参构造
+A::A()
+    :m_b(), m_c(), m_d(), m_e(0)
+{ }
+class成员变量以其声明次序被初始化，m_b交换次序也是最先初始化
+
+以函数调用替换"直接访问non-local static对象"
+extern FileSystem tfs;
+A func() { return tfs.fun1(); } 改为
+FileSystem& tfs() {static FileSystem fs; return fs;}
+A func() { return tfs().fun1(); }
+以local static对象替换non-local static对象

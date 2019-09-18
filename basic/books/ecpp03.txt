@@ -1,0 +1,15 @@
+#3 Resource Management
+
+##13 Use objects to manage resources
+使用RAII对象来防止资源泄漏，它们在构造函数中获得资源并在析构函数中释放资源。
+shared_ptr是RAII的较佳选择，copy比较直观，auto_ptr的复制行为会使它指向null。
+
+
+##14 Think carefully about copying behavior in resource-managing classes
+复制RAII(Resource Acquisition Is Initialization)对象必须一并复制它所管理的资源，所以资源的copying行为决定RAII对象的copying行为。
+普遍而常见的RAII class copying行为是：抑制copying，施行引用计数法(reference counting)，不过其他行为也都可能被实现。
+
+
+##15 Provide access to raw resources in resource-managing classes
+
+

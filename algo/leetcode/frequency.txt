@@ -1,0 +1,213 @@
+Easy
+
+Array
+26.Remove Duplicates from Sorted Array
+122.Best Time to Buy and Sell Stock II
+189.Rotate Array
+217.Contains Duplicate
+136.Single Number
+350.Intersection of Two Arrays II
+66.Plus One
+283.Move Zeroes
+1.Two Sum
+36.Valid Sudoku
+48.Rotate Image
+
+Strings
+344.Reverse String
+7.Reverse Integer
+387.First Unique Character in a String
+242.Valid Anagram
+125.Valid Palindrome
+8.String to Integer (atoi)
+28.Implement strStr()
+38.Count and Say
+14.Longest Common Prefix
+
+Linked List
+237.Delete Node in a Linked List
+19.Remove Nth Node From End of List
+206.Reverse Linked List
+21.Merge Two Sorted Lists
+234.Palindrome Linked List
+141.Linked List Cycle
+
+Trees
+104.Maximum Depth of Binary Tree
+98.Validate Binary Search Tree
+101.Symmetric Tree
+102.Binary Tree Level Order Traversal
+108.Convert Sorted Array to Binary Search Tree
+
+Sorting and Searching
+88.Merge Sorted Array
+278.First Bad Version
+
+Dynamic Programming
+70.Climbing Stairs
+121.Best Time to Buy and Sell Stock
+53.Maximum Subarray
+198.House Robber
+
+Design
+384.Shuffle an Array
+155.Min Stack
+
+Math
+412.Fizz Buzz
+204.Count Primes
+326.Power of Three
+13.Roman to Integer
+
+Others
+191.Number of 1 Bits
+461.Hamming Distance
+190.Reverse Bits
+118.Pascal's Triangle
+20.Valid Parentheses
+268.Missing Number
+
+
+Medium
+Array and Strings
+15.3Sum
+73.Set Matrix Zeroes
+49.Group Anagrams
+3.Longest Substring Without Repeating Characters
+5.Longest Palindromic Substring
+334.Increasing Triplet Subsequence
+163.Missing Ranges
+
+Linked List
+2.Add Two Numbers
+328.Odd Even Linked List
+160.Intersection of Two Linked Lists
+
+Trees and Graphs
+94.Binary Tree Inorder Traversal
+103.Binary Tree Zigzag Level Order Traversal
+105.Construct Binary Tree from Preorder and Inorder Traversal
+116.Populating Next Right Pointers in Each Node
+230.Kth Smallest Element in a BST
+285.Inorder Successor in BST
+200.Number of Islands
+
+Backtracking
+17.Letter Combinations of a Phone Number
+22.Generate Parentheses
+46.Permutations
+78.Subsets
+79.Word Search
+
+Sorting and Searching
+75.Sort Colors
+347.Top K Frequent Elements
+215.Kth Largest Element in an Array
+162.Find Peak Element
+no--Search for a Range
+56.Merge Intervals
+33.Search in Rotated Sorted Array
+253.Meeting Rooms II
+240.Search a 2D Matrix II
+
+Dynamic Programming
+55.Jump Game
+62.Unique Paths
+322.Coin Change
+300.Longest Increasing Subsequence
+
+Design
+251.Flatten 2D Vector
+297.Serialize and Deserialize Binary Tree
+380.Insert Delete GetRandom O(1)
+348.Design Tic-Tac-Toe
+
+Math
+202.Happy Number
+172.Factorial Trailing Zeroes
+171.Excel Sheet Column Number
+50.Pow(x, n)
+69.Sqrt(x)
+29.Divide Two Integers
+166.Fraction to Recurring Decimal
+
+Others
+371.Sum of Two Integers
+150.Evaluate Reverse Polish Notation
+169.Majority Element
+277.Find the Celebrity
+max*621.Task Scheduler
+
+
+Hard
+Array and Strings
+238.Product of Array Except Self
+54.Spiral Matrix
+454.4Sum II
+11.Container With Most Water
+289.Game of Life
+41.First Missing Positive
+128.Longest Consecutive Sequence
+287.Find the Duplicate Number
+340.Longest Substring with At Most K Distinct Characters
+224.Basic Calculator II
+239.Sliding Window Maximum
+76.Minimum Window Substring
+
+Linked List
+23.Merge k Sorted Lists
+148.Sort List
+138.Copy List with Random Pointer
+
+Trees and Graphs
+127.Word Ladder
+130.Surrounded Regions
+236.Lowest Common Ancestor of a Binary Tree
+124.Binary Tree Maximum Path Sum
+547.Friend Circles
+207.Course Schedule
+210.Course Schedule II
+329.2Longest Increasing Path in a Matrix
+269.Alien Dictionary
+315.Count of Smaller Numbers After Self
+
+Backtracking
+131.Palindrome Partitioning
+212.Word Search II
+301.Remove Invalid Parentheses
+44.Wildcard Matching
+10.Regular Expression Matching
+
+Sorting and Searching
+324.Wiggle Sort II
+378.Kth Smallest Element in a Sorted Matrix
+4.Median of Two Sorted Arrays
+
+Dynamic Programming
+152.Maximum Product Subarray
+91.Decode Ways
+309.Best Time to Buy and Sell Stock with Cooldown
+279.Perfect Squares
+139.Word Break
+140.Word Break II
+312.Burst Balloons
+
+Design
+146.LRU Cache
+208.Implement Trie (Prefix Tree)
+341.Flatten Nested List Iterator
+295.Find Median from Data Stream
+308.Range Sum Query 2D - Mutable
+
+Math
+179.Largest Number
+149.Max Points on a Line
+
+Others
+406.Queue Reconstruction by Height
+42.Trapping Rain Water
+218.The Skyline Problem
+84.Largest Rectangle in Histogram
+
+
+highlight - hidden list

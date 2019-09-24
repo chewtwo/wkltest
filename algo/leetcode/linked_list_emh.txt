@@ -1,0 +1,553 @@
+Easy - Linked list
+*****************************************************************************************************
+#237 Delete Node in a Linked List
+*****************************************************************************************************
+Example 1:
+Input: head = [4,5,1,9], node = 5
+Output: [4,1,9]
+Explanation: You are given the second node with value 5, the linked list should become 4 -> 1 -> 9 after calling your function.
+
+Example 2:
+Input: head = [4,5,1,9], node = 1
+Output: [4,5,9]
+Explanation: You are given the third node with value 1, the linked list should become 4 -> 5 -> 9 after calling your function.
+ 
+Note:
+The linked list will have at least two elements.
+All of the nodes' values will be unique.
+The given node will not be the tail and it will always be a valid node of the linked list.
+Do not return anything from your function.
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        *node = *node->next;
+    }
+};
+
+*****************************************************************************************************
+#19 Remove Nth Node From End of List
+*****************************************************************************************************
+Example:
+Given linked list: 1->2->3->4->5, and n = 2.
+After removing the second node from the end, the linked list becomes 1->2->3->5.
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode** t1 = &head, *t2 = head;
+        for(int i = 1; i < n; ++i)
+        {
+            t2 = t2->next;
+        }
+        while(t2->next != NULL)
+        {
+            t1 = &((*t1)->next);
+            t2 = t2->next;
+        }
+        *t1 = (*t1)->next;
+        return head;
+    }
+};
+
+*****************************************************************************************************
+#206 Reverse Linked List
+*****************************************************************************************************
+Example:
+Input: 1->2->3->4->5->NULL
+Output: 5->4->3->2->1->NULL
+
+iteratively or recursively.
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(NULL==head) return head;
+
+        struct ListNode *p=head;
+        p=head->next;
+        head->next=NULL;
+        while(NULL!=p){
+            struct ListNode *ptmp=p->next;
+            p->next=head;
+            head=p;
+            p=ptmp;
+        }
+        return head;
+    }
+};
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(NULL==head||NULL==head->next) return head;
+
+        struct ListNode *p=head->next;
+        head->next=NULL;
+        struct ListNode *newhead=reverseList(p);
+        p->next=head;
+
+        return newhead;
+    }
+};
+
+*****************************************************************************************************
+#21 Merge Two Sorted Lists
+*****************************************************************************************************
+Example:
+Input: 1->2->4, 1->3->4
+Output: 1->1->2->3->4->4
+
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(l1 == NULL) return l2;
+        if(l2 == NULL) return l1;
+        
+        if(l1->val < l2->val) {
+            l1->next = mergeTwoLists(l1->next, l2);
+            return l1;
+        } else {
+            l2->next = mergeTwoLists(l2->next, l1);
+            return l2;
+        }
+    }
+};
+
+*****************************************************************************************************
+#234 Palindrome Linked List
+*****************************************************************************************************
+Example 1:
+Input: 1->2
+Output: false
+
+Example 2:
+Input: 1->2->2->1
+Output: true
+
+O(n) time and O(1) space
+
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if(head==NULL||head->next==NULL)
+            return true;
+        ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast->next!=NULL&&fast->next->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        slow->next=reverseList(slow->next);
+        slow=slow->next;
+        while(slow!=NULL){
+            if(head->val!=slow->val)
+                return false;
+            head=head->next;
+            slow=slow->next;
+        }
+        return true;
+    }
+    
+    ListNode* reverseList(ListNode* head) {
+        ListNode* pre=NULL;
+        ListNode* next=NULL;
+        while(head!=NULL){
+            next=head->next;
+            head->next=pre;
+            pre=head;
+            head=next;
+        }
+        return pre;
+    }
+};
+
+*****************************************************************************************************
+#141 Linked List Cycle
+*****************************************************************************************************
+Example 1:
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle in the linked list, where tail connects to the second node.
+
+Example 2:
+Input: head = [1,2], pos = 0
+Output: true
+Explanation: There is a cycle in the linked list, where tail connects to the first node.
+
+Example 3:
+Input: head = [1], pos = -1
+Output: false
+Explanation: There is no cycle in the linked list.
+
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(head == NULL || head -> next == NULL)    
+            return false;
+ 
+        ListNode *fast = head;
+        ListNode *slow = head;
+        
+        while(fast -> next && fast -> next -> next){
+            fast = fast -> next -> next;
+            slow = slow -> next;
+            if(fast == slow)
+                return true;
+        }
+ 
+        return false;
+    }
+};
+
+
+Medium - Linked list
+*****************************************************************************************************
+#2 Add Two Numbers
+*****************************************************************************************************
+Example:
+Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+Output: 7 -> 0 -> 8
+Explanation: 342 + 465 = 807.
+
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode preHead(0), *p = &preHead;
+        int extra = 0;
+        while (l1 || l2 || extra) {
+            int sum = (l1 ? l1->val : 0) + (l2 ? l2->val : 0) + extra;
+            extra = sum / 10;
+            p->next = new ListNode(sum % 10);
+            p = p->next;
+            l1 = l1 ? l1->next : l1;
+            l2 = l2 ? l2->next : l2;
+        }
+        return preHead.next;
+    }
+};
+
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* res = new ListNode(-1);
+        ListNode* cur = res;
+        int carry = 0;
+        while (l1 || l2) {
+            int n1 = l1? l1->val:0;
+            int n2 = l2? l2->val:0;
+            int sum = n1+n2+carry;
+            carry = sum/10;
+            cur->next = new ListNode(sum%10);
+            cur = cur->next;
+            if(l1)
+                l1 = l1->next;
+            if (l2)
+                l2 = l2->next;
+        }
+        if (carry)
+            cur->next = new ListNode(1);
+        return res->next;
+    }
+};
+
+*****************************************************************************************************
+#328 Odd Even Linked List
+*****************************************************************************************************
+Example 1:
+Input: 1->2->3->4->5->NULL
+Output: 1->3->5->2->4->NULL
+
+Example 2:
+Input: 2->1->3->5->6->4->7->NULL
+Output: 2->3->6->7->1->5->4->NULL
+
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        if(!head) return head;
+        ListNode *odd=head, *evenhead=head->next, *even = evenhead;
+        while(even && even->next)
+        {
+            odd->next = odd->next->next;
+            even->next = even->next->next;
+            odd = odd->next;
+            even = even->next;
+        }
+        odd->next = evenhead;
+        return head;
+    }
+};
+
+*****************************************************************************************************
+#160 Intersection of Two Linked Lists
+*****************************************************************************************************
+Example 1:
+Input: intersectVal = 8, listA = [4,1,8,4,5], listB = [5,0,1,8,4,5], skipA = 2, skipB = 3
+Output: Reference of the node with value = 8
+Input Explanation: The intersected node's value is 8 (note that this must not be 0 if the two lists intersect). From the head of A, it reads as [4,1,8,4,5]. From the head of B, it reads as [5,0,1,8,4,5]. There are 2 nodes before the intersected node in A; There are 3 nodes before the intersected node in B.
+ 
+Example 2:
+Input: intersectVal = 2, listA = [0,9,1,2,4], listB = [3,2,4], skipA = 3, skipB = 1
+Output: Reference of the node with value = 2
+Input Explanation: The intersected node's value is 2 (note that this must not be 0 if the two lists intersect). From the head of A, it reads as [0,9,1,2,4]. From the head of B, it reads as [3,2,4]. There are 3 nodes before the intersected node in A; There are 1 node before the intersected node in B.
+ 
+Example 3:
+Input: intersectVal = 0, listA = [2,6,4], listB = [1,5], skipA = 3, skipB = 2
+Output: null
+Input Explanation: From the head of A, it reads as [2,6,4]. From the head of B, it reads as [1,5]. Since the two lists do not intersect, intersectVal must be 0, while skipA and skipB can be arbitrary values.
+Explanation: The two lists do not intersect, so return null.
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode *p1 = headA;
+        ListNode *p2 = headB;
+
+        if (p1 == NULL || p2 == NULL) return NULL;
+
+        while (p1 != NULL && p2 != NULL && p1 != p2) {
+            p1 = p1->next;
+            p2 = p2->next;
+
+            //
+            // Any time they collide or reach end together without colliding 
+            // then return any one of the pointers.
+            //
+            if (p1 == p2) return p1;
+
+            //
+            // If one of them reaches the end earlier then reuse it 
+            // by moving it to the beginning of other list.
+            // Once both of them go through reassigning, 
+            // they will be equidistant from the collision point.
+            //
+            if (p1 == NULL) p1 = headB;
+            if (p2 == NULL) p2 = headA;
+        }
+
+        return p1;
+    }
+};
+
+
+Hard - Linked list
+*****************************************************************************************************
+#23 Merge k Sorted Lists
+*****************************************************************************************************
+Example:
+Input:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+Output: 1->1->2->3->4->4->5->6
+
+class Solution {
+public:
+    struct compare {
+    bool operator()(const ListNode* l, const ListNode* r) {
+        return l->val > r->val;
+    }
+    };
+    ListNode *mergeKLists(vector<ListNode *> &lists) { //priority_queue
+        priority_queue<ListNode *, vector<ListNode *>, compare> q;
+        for(auto l : lists) {
+            if(l)  q.push(l);
+        }
+        if(q.empty())  return NULL;
+
+        ListNode* result = q.top();
+        q.pop();
+        if(result->next) q.push(result->next);
+        ListNode* tail = result;            
+        while(!q.empty()) {
+            tail->next = q.top();
+            q.pop();
+            tail = tail->next;
+            if(tail->next) q.push(tail->next);
+        }
+        return result;
+    }
+};
+
+class Solution {
+public:
+    static bool heapComp(ListNode* a, ListNode* b) {
+        return a->val > b->val;
+    }
+    ListNode* mergeKLists(vector<ListNode*>& lists) { //make_heap
+        ListNode head(0);
+        ListNode *curNode = &head;
+        vector<ListNode*> v;   
+        for(int i =0; i<lists.size(); i++){
+            if(lists[i]) v.push_back(lists[i]);
+        }
+        make_heap(v.begin(), v.end(), heapComp); //vector -> heap data strcture
+
+        while(v.size()>0){
+            curNode->next=v.front();
+            pop_heap(v.begin(), v.end(), heapComp); 
+            v.pop_back(); 
+            curNode = curNode->next;
+            if(curNode->next) {
+                v.push_back(curNode->next); 
+                push_heap(v.begin(), v.end(), heapComp);
+            }
+        }
+        return head.next;
+    }
+};
+
+*****************************************************************************************************
+#148 Sort List
+*****************************************************************************************************
+Example 1:
+Input: 4->2->1->3
+Output: 1->2->3->4
+
+Example 2:
+Input: -1->5->3->4->0
+Output: -1->0->3->4->5
+
+class Solution {
+public:
+	ListNode *sortList(ListNode *head) {
+		if(!head || !(head->next)) return head;
+		
+		//get the linked list's length
+		ListNode* cur = head;
+		int length = 0;
+		while(cur){
+			length++;
+			cur = cur->next;
+		}
+		
+		ListNode dummy(0);
+		dummy.next = head;
+		ListNode *left, *right, *tail;
+		for(int step = 1; step < length; step <<= 1){
+			cur = dummy.next;
+			tail = &dummy;
+			while(cur){
+				left = cur;
+				right = split(left, step);
+				cur = split(right,step);
+				tail = merge(left, right, tail);
+			}
+		}
+		return dummy.next;
+	}
+private:
+	/**
+	 * Divide the linked list into two lists,
+     * while the first list contains first n ndoes
+	 * return the second list's head
+	 */
+	ListNode* split(ListNode *head, int n){
+		//if(!head) return NULL;
+		for(int i = 1; head && i < n; i++) head = head->next;
+		
+		if(!head) return NULL;
+		ListNode *second = head->next;
+		head->next = NULL;
+		return second;
+	}
+	/**
+	  * merge the two sorted linked list l1 and l2,
+	  * then append the merged sorted linked list to the node head
+	  * return the tail of the merged sorted linked list
+	 */
+	ListNode* merge(ListNode* l1, ListNode* l2, ListNode* head){
+		ListNode *cur = head;
+		while(l1 && l2){
+			if(l1->val > l2->val){
+				cur->next = l2;
+				cur = l2;
+				l2 = l2->next;
+			}
+			else{
+				cur->next = l1;
+				cur = l1;
+				l1 = l1->next;
+			}
+		}
+		cur->next = (l1 ? l1 : l2);
+		while(cur->next) cur = cur->next;
+		return cur;
+	}
+};
+
+*****************************************************************************************************
+#138 Copy List with Random Pointer
+*****************************************************************************************************
+Example 1:
+Input:
+{"$id":"1","next":{"$id":"2","next":null,"random":{"$ref":"2"},"val":2},"random":{"$ref":"2"},"val":1}
+Explanation:
+Node 1's value is 1, both of its next and random pointer points to Node 2.
+Node 2's value is 2, its next pointer points to null and its random pointer points to itself.
+
+//error {"$id":"1","next":null,"random":null,"val":-1}
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        Node *newHead, *l1, *l2;
+        if (head == NULL) return NULL;
+        for (l1 = head; l1 != NULL; l1 = l1->next->next) {
+            l2 = new Node(l1->val);
+            l2->next = l1->next;
+            l1->next = l2;
+        }
+
+        newHead = head->next;
+        for (l1 = head; l1 != NULL; l1 = l1->next->next) {
+            if (l1->random != NULL) l1->next->random = l1->random->next;
+        }
+
+        for (l1 = head; l1 != NULL; l1 = l1->next) {
+            l2 = l1->next;
+            l1->next = l2->next;
+            if (l2->next != NULL) l2->next = l2->next->next;
+        }
+
+        return newHead;
+    }
+};
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        Node *newHead, *l1, *l2;
+        if (head == NULL) return NULL;
+
+        for (l1 = head; l1 != NULL; l1 = l1->next) {
+            l2 = new Node(l1->val);
+            l2->next = l1->random;
+            l1->random = l2;
+        }
+
+        newHead = head->random;
+        for (l1 = head; l1 != NULL; l1 = l1->next) {
+            l2 = l1->random;
+            l2->random = l2->next ? l2->next->random : NULL;
+        }
+
+        for (l1 = head; l1 != NULL; l1 = l1->next) {
+            l2 = l1->random;
+            l1->random = l2->next;
+            l2->next = l1->next ? l1->next->random : NULL;
+        }
+
+        return newHead;
+    }
+};

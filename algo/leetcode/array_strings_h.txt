@@ -1,0 +1,706 @@
+Hard - Array and Strings
+*****************************************************************************************************
+#238 Product of Array Except Self*
+*****************************************************************************************************
+Example:
+Input:  [1,2,3,4]
+Output: [24,12,8,6]
+
+cpp:
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> fromBegin(n);
+        fromBegin[0]=1;
+        vector<int> fromLast(n);
+        fromLast[0]=1;
+        
+        for(int i=1;i<n;i++){
+            fromBegin[i]=fromBegin[i-1]*nums[i-1];
+            fromLast[i]=fromLast[i-1]*nums[n-i];
+        }
+        
+        vector<int> res(n);
+        for(int i=0;i<n;i++){
+            res[i]=fromBegin[i]*fromLast[n-1-i];
+        }
+        return res;
+    }
+};
+
+java:
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+
+        // The length of the input array 
+        int length = nums.length;
+
+        // Final answer array to be returned
+        int[] answer = new int[length];
+
+        // answer[i] contains the product of all the elements to the left
+        // Note: for the element at index '0', there are no elements to the left,
+        // so the answer[0] would be 1
+        answer[0] = 1;
+        for (int i = 1; i < length; i++) {
+
+            // answer[i - 1] already contains the product of elements to the left of 'i - 1'
+            // Simply multiplying it with nums[i - 1] would give the product of all 
+            // elements to the left of index 'i'
+            answer[i] = nums[i - 1] * answer[i - 1];
+        }
+
+        // R contains the product of all the elements to the right
+        // Note: for the element at index 'length - 1', there are no elements to the right,
+        // so the R would be 1
+        int R = 1;
+        for (int i = length - 1; i >= 0; i--) {
+
+            // For the index 'i', R would contain the 
+            // product of all elements to the right. We update R accordingly
+            answer[i] = answer[i] * R;
+            R *= nums[i];
+        }
+
+        return answer;
+    }
+}
+
+*****************************************************************************************************
+#54 Spiral Matrix
+*****************************************************************************************************
+Example 1:
+Input:
+[
+ [ 1, 2, 3 ],
+ [ 4, 5, 6 ],
+ [ 7, 8, 9 ]
+]
+Output: [1,2,3,6,9,8,7,4,5]
+
+Example 2:
+Input:
+[
+  [1, 2, 3, 4],
+  [5, 6, 7, 8],
+  [9,10,11,12]
+]
+Output: [1,2,3,4,8,12,11,10,9,5,6,7]
+
+cpp:
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<vector<int> > dirs{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        vector<int> res;
+        int nr = matrix.size();     if (nr == 0) return res;
+        int nc = matrix[0].size();  if (nc == 0) return res;
+
+        vector<int> nSteps{nc, nr-1};
+
+        int iDir = 0;   // index of direction.
+        int ir = 0, ic = -1;    // initial position
+        while (nSteps[iDir%2]) {
+            for (int i = 0; i < nSteps[iDir%2]; ++i) {
+                ir += dirs[iDir][0]; ic += dirs[iDir][1];
+                res.push_back(matrix[ir][ic]);
+            }
+            nSteps[iDir%2]--;
+            iDir = (iDir + 1) % 4;
+        }
+        return res;
+    }
+};
+
+java:
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List ans = new ArrayList();
+        if (matrix.length == 0) return ans;
+        int R = matrix.length, C = matrix[0].length;
+        boolean[][] seen = new boolean[R][C];
+        int[] dr = {0, 1, 0, -1};
+        int[] dc = {1, 0, -1, 0};
+        int r = 0, c = 0, di = 0;
+        for (int i = 0; i < R * C; i++) {
+            ans.add(matrix[r][c]);
+            seen[r][c] = true;
+            int cr = r + dr[di];
+            int cc = c + dc[di];
+            if (0 <= cr && cr < R && 0 <= cc && cc < C && !seen[cr][cc]){
+                r = cr;
+                c = cc;
+            } else {
+                di = (di + 1) % 4;
+                r += dr[di];
+                c += dc[di];
+            }
+        }
+        return ans;
+    }
+}
+
+class Solution {
+    public List < Integer > spiralOrder(int[][] matrix) {
+        List ans = new ArrayList();
+        if (matrix.length == 0)
+            return ans;
+        int r1 = 0, r2 = matrix.length - 1;
+        int c1 = 0, c2 = matrix[0].length - 1;
+        while (r1 <= r2 && c1 <= c2) {
+            for (int c = c1; c <= c2; c++) ans.add(matrix[r1][c]);
+            for (int r = r1 + 1; r <= r2; r++) ans.add(matrix[r][c2]);
+            if (r1 < r2 && c1 < c2) {
+                for (int c = c2 - 1; c > c1; c--) ans.add(matrix[r2][c]);
+                for (int r = r2; r > r1; r--) ans.add(matrix[r][c1]);
+            }
+            r1++;
+            r2--;
+            c1++;
+            c2--;
+        }
+        return ans;
+    }
+}
+
+*****************************************************************************************************
+#454 4Sum II
+*****************************************************************************************************
+Example:
+Input:
+A = [ 1, 2]
+B = [-2,-1]
+C = [-1, 2]
+D = [ 0, 2]
+Output:
+2
+Explanation:
+The two tuples are:
+1. (0, 0, 0, 1) -> A[0] + B[0] + C[0] + D[1] = 1 + (-2) + (-1) + 2 = 0
+2. (1, 1, 0, 0) -> A[1] + B[1] + C[0] + D[0] = 2 + (-1) + (-1) + 0 = 0
+
+class Solution {
+public:
+    int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
+        unordered_map<int, int>  abSum;
+        for(auto a : A) {
+            for(auto b : B) {
+                ++abSum[a+b];
+            }
+        }
+        int count = 0;
+        for(auto c : C) {
+            for(auto d : D) {
+                auto it = abSum.find(0 - c - d);
+                if(it != abSum.end()) {
+                    count += it->second;
+                }
+            }
+        }
+        return count;
+    }
+};
+
+*****************************************************************************************************
+#11 Container With Most Water
+*****************************************************************************************************
+Example:
+Input: [1,8,6,2,5,4,8,3,7]
+Output: 49
+
+cpp:
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int water = 0;
+        int i = 0, j = height.size() - 1;
+        while (i < j) {
+            int h = min(height[i], height[j]);
+            water = max(water, (j - i) * h);
+            while (height[i] <= h && i < j) i++;
+            while (height[j] <= h && i < j) j--;
+        }
+        return water;
+    }
+};
+
+java:
+public class Solution {
+    public int maxArea(int[] height) {
+        int maxarea = 0, l = 0, r = height.length - 1;
+        while (l < r) {
+            maxarea = Math.max(maxarea, Math.min(height[l], height[r]) * (r - l));
+            if (height[l] < height[r])
+                l++;
+            else
+                r--;
+        }
+        return maxarea;
+    }
+}
+
+*****************************************************************************************************
+#289 Game of Life
+*****************************************************************************************************
+如果活细胞周围八个位置的活细胞数少于两个，则该位置活细胞死亡；
+如果活细胞周围八个位置有两个或三个活细胞，则该位置活细胞仍然存活；
+如果活细胞周围八个位置有超过三个活细胞，则该位置活细胞死亡；
+如果死细胞周围正好有三个活细胞，则该位置死细胞复活；
+
+Input: 
+[
+  [0,1,0],
+  [0,0,1],
+  [1,1,1],
+  [0,0,0]
+]
+Output: 
+[
+  [0,0,0],
+  [1,0,1],
+  [0,1,1],
+  [0,1,0]
+]
+
+cpp:
+class Solution {
+public:
+    void gameOfLife(vector<vector<int>>& board) {
+        int m = board.size(), n = m ? board[0].size() : 0;
+        for (int i=0; i<m; ++i) {
+            for (int j=0; j<n; ++j) {
+                int count = 0;
+                for (int I=max(i-1, 0); I<min(i+2, m); ++I)
+                    for (int J=max(j-1, 0); J<min(j+2, n); ++J)
+                        count += board[I][J] & 1;
+                if (count == 3 || count - board[i][j] == 3)
+                    board[i][j] |= 2;
+            }
+        }
+        for (int i=0; i<m; ++i)
+            for (int j=0; j<n; ++j)
+                board[i][j] >>= 1;
+    }
+};
+
+java:
+class Solution {
+    public void gameOfLife(int[][] board) {
+
+        // Neighbors array to find 8 neighboring cells for a given cell
+        int[] neighbors = {0, 1, -1};
+
+        int rows = board.length;
+        int cols = board[0].length;
+
+        // Iterate through board cell by cell.
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+
+                // For each cell count the number of live neighbors.
+                int liveNeighbors = 0;
+
+                for (int i = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+
+                        if (!(neighbors[i] == 0 && neighbors[j] == 0)) {
+                            int r = (row + neighbors[i]);
+                            int c = (col + neighbors[j]);
+
+                            // Check the validity of the neighboring cell.
+                            // and whether it was originally a live cell.
+                            if ((r < rows && r >= 0) && (c < cols && c >= 0) && (Math.abs(board[r][c]) == 1)) {
+                                liveNeighbors += 1;
+                            }
+                        }
+                    }
+                }
+
+                // Rule 1 or Rule 3
+                if ((board[row][col] == 1) && (liveNeighbors < 2 || liveNeighbors > 3)) {
+                    // -1 signifies the cell is now dead but originally was live.
+                    board[row][col] = -1;
+                }
+                // Rule 4
+                if (board[row][col] == 0 && liveNeighbors == 3) {
+                    // 2 signifies the cell is now live but was originally dead.
+                    board[row][col] = 2;
+                }
+            }
+        }
+
+        // Get the final representation for the newly updated board.
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                if (board[row][col] > 0) {
+                    board[row][col] = 1;
+                } else {
+                    board[row][col] = 0;
+                }
+            }
+        }
+    }
+}
+
+*****************************************************************************************************
+#41 First Missing Positive
+*****************************************************************************************************
+Example 1:
+Input: [1,2,0]
+Output: 3
+
+Example 2:
+Input: [3,4,-1,1]
+Output: 2
+
+Example 3:
+Input: [7,8,9,11,12]
+Output: 1
+
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        int n = nums.size();
+        for(int i = 0; i < n; ++ i)
+            while(nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i])
+                swap(nums[i], nums[nums[i] - 1]);
+        
+        for(int i = 0; i < n; ++ i)
+            if(nums[i] != i + 1)
+                return i + 1;
+        
+        return n + 1;
+    }
+};
+
+*****************************************************************************************************
+#128 Longest Consecutive Sequence
+*****************************************************************************************************
+Example:
+Input: [100, 4, 200, 1, 3, 2]
+Output: 4
+Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+
+cpp:
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        if(nums.size() == 0) return 0;
+        unordered_set<int> record(nums.begin(),nums.end());
+        int res = 1;
+        for(int n : nums){
+            if(record.find(n)==record.end()) continue;
+            record.erase(n);
+            int prev = n-1,next = n+1;
+            while(record.find(prev)!=record.end()) record.erase(prev--);
+            while(record.find(next)!=record.end()) record.erase(next++);
+            res = max(res,next-prev-1);
+        }
+        return res;
+    }
+};
+
+java:
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+
+        Arrays.sort(nums);
+
+        int longestStreak = 1;
+        int currentStreak = 1;
+
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] != nums[i-1]) {
+                if (nums[i] == nums[i-1]+1) {
+                    currentStreak += 1;
+                }
+                else {
+                    longestStreak = Math.max(longestStreak, currentStreak);
+                    currentStreak = 1;
+                }
+            }
+        }
+
+        return Math.max(longestStreak, currentStreak);
+    }
+}
+
+*****************************************************************************************************
+#287 Find the Duplicate Number
+*****************************************************************************************************
+Example 1:
+Input: [1,3,4,2,2]
+Output: 2
+
+Example 2:
+Input: [3,1,3,4,2]
+Output: 3
+
+cpp:
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        if (nums.size() > 1)
+        {
+            int slow = nums[0];
+            int fast = nums[nums[0]];
+            while (slow != fast)
+            {
+                slow = nums[slow];
+                fast = nums[nums[fast]];
+            }
+
+            fast = 0;
+            while (fast != slow)
+            {
+                fast = nums[fast];
+                slow = nums[slow];
+            }
+            return slow;
+        }
+        return -1;
+    }
+};
+
+java:
+class Solution {
+    public int findDuplicate(int[] nums) {
+        // Find the intersection point of the two runners.
+        int tortoise = nums[0];
+        int hare = nums[0];
+        do {
+            tortoise = nums[tortoise];
+            hare = nums[nums[hare]];
+        } while (tortoise != hare);
+
+        // Find the "entrance" to the cycle.
+        int ptr1 = nums[0];
+        int ptr2 = tortoise;
+        while (ptr1 != ptr2) {
+            ptr1 = nums[ptr1];
+            ptr2 = nums[ptr2];
+        }
+
+        return ptr1;
+    }
+}
+
+*****************************************************************************************************
+#340 Longest Substring with At Most K Distinct Characters
+*****************************************************************************************************
+给定一个字符串 s ，找出 至多 包含 k 个不同字符的最长子串 T。
+
+示例 1:
+输入: s = "eceba", k = 2
+输出: 3
+解释: 则 T 为 "ece"，所以长度为 3。
+
+示例 2:
+输入: s = "aa", k = 1
+输出: 2
+解释: 则 T 为 "aa"，所以长度为 2。
+
+class Solution {
+public:
+    int lengthOfLongestSubstringKDistinct(string s, int k) {
+        
+    }
+};
+
+*****************************************************************************************************
+#224 Basic Calculator(move)
+*****************************************************************************************************
+Example 1:
+Input: "1 + 1"
+Output: 2
+
+Example 2:
+Input: " 2-1 + 2 "
+Output: 3
+
+Example 3:
+Input: "(1+(4+5+2)-3)+(6+8)"
+Output: 23
+
+class Solution {
+public:
+    int calculate(string s) {
+        stack <int> nums, ops;
+        int num = 0;
+        int rst = 0;
+        int sign = 1;
+        for (char c : s) { 
+            if (isdigit(c)) {
+                num = num * 10 + (c - '0');
+            }
+            else {
+                rst += sign * num;
+                num = 0;
+                if (c == '+') sign = 1;
+                if (c == '-') sign = -1;
+                if (c == '(') {
+                    nums.push(rst);
+                    ops.push(sign);
+                    rst = 0;
+                    sign = 1;
+                }
+                if (c == ')' && ops.size()) {
+                    rst = ops.top() * rst + nums.top();
+                    ops.pop(); nums.pop();
+                }
+            }
+        }
+        rst += sign * num;
+        return rst;
+    }
+};
+
+class Solution {
+public:
+    int calculate(string s) {
+        int total = 0;
+        vector<int> signs(2, 1);
+        for (int i=0; i<s.size(); i++) {
+            char c = s[i];
+            if (c >= '0') {
+                int number = 0;
+                while (i < s.size()  &&  s[i] >= '0')
+                    number = 10 * number + (s[i++] - '0');
+                total += signs.back() * number;
+                signs.pop_back();
+                i--;
+            }
+            else if (c == ')')
+                signs.pop_back();
+            else if (c != ' ')
+                signs.push_back(signs.back() * (c == '-' ? -1 : 1));
+        }
+        return total;
+    }
+};
+
+*****************************************************************************************************
+#227 Basic Calculator II
+*****************************************************************************************************
+Example 1:
+Input: "3+2*2"
+Output: 7
+
+Example 2:
+Input: " 3/2 "
+Output: 1
+
+Example 3:
+Input: " 3+5 / 2 "
+Output: 5
+
+class Solution {
+public:
+    int calculate(string s) {
+        istringstream in('+' + s + '+');
+        long long total = 0, term = 0, n;
+        char op;
+        while (in >> op) {
+            if (op == '+' or op == '-') {
+                total += term;
+                in >> term;
+                term *= 44 - op;
+            } else {
+                in >> n;
+                if (op == '*')
+                    term *= n;
+                else
+                    term /= n;
+            }
+        }
+        return total;
+    }
+};
+
+*****************************************************************************************************
+#239 Sliding Window Maximum
+*****************************************************************************************************
+Example:
+Input: nums = [1,3,-1,-3,5,3,6,7], and k = 3
+Output: [3,3,5,5,6,7] 
+Explanation: 
+
+Window position                Max
+---------------               -----
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7
+
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        deque<int> dq;
+        vector<int> ans;
+        for (int i=0; i<nums.size(); i++) {
+            if (!dq.empty() && dq.front() == i-k) dq.pop_front();
+            while (!dq.empty() && nums[dq.back()] < nums[i])
+                dq.pop_back();
+            dq.push_back(i);
+            if (i>=k-1) ans.push_back(nums[dq.front()]);
+        }
+        return ans;
+    }
+};
+
+*****************************************************************************************************
+#76 Minimum Window Substring
+*****************************************************************************************************
+Example:
+Input: S = "ADOBECODEBANC", T = "ABC"
+Output: "BANC"
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        vector<int> map(128,0);
+        for(auto c: t) map[c]++;
+        int counter=t.size(), begin=0, end=0, d=INT_MAX, head=0;
+        while(end<s.size()){
+            if(map[s[end++]]-->0) counter--; //in t
+            while(counter==0){ //valid
+                if(end-begin<d)  d=end-(head=begin);
+                if(map[s[begin++]]++==0) counter++;  //make it invalid
+            }  
+        }
+        return d==INT_MAX? "":s.substr(head, d);
+    }
+};
+
+int findSubstring(string s){
+        vector<int> map(128,0);
+        int counter; // check whether the substring is valid
+        int begin=0, end=0; //two pointers, one point to tail and one  head
+        int d; //the length of substring
+
+        for() { /* initialize the hash map here */ }
+
+        while(end<s.size()){
+
+            if(map[s[end++]]-- ?){  /* modify counter here */ }
+
+            while(/* counter condition */){ 
+                 
+                 /* update d here if finding minimum*/
+
+                //increase begin to make it invalid/valid again
+                
+                if(map[s[begin++]]++ ?){ /*modify counter here*/ }
+            }  
+
+            /* update d here if finding maximum*/
+        }
+        return d;
+  }
+

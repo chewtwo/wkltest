@@ -1,0 +1,270 @@
+Medium - Design
+*****************************************************************************************************
+#251 Flatten 2D Vector(lock q)
+*****************************************************************************************************
+请设计并实现一个能够展开二维向量的迭代器。该迭代器需要支持 next 和 hasNext 两种操作
+
+示例：
+Vector2D iterator = new Vector2D([[1,2],[3],[4]]);
+
+iterator.next(); // 返回 1
+iterator.next(); // 返回 2
+iterator.next(); // 返回 3
+iterator.hasNext(); // 返回 true
+iterator.hasNext(); // 返回 true
+iterator.next(); // 返回 4
+iterator.hasNext(); // 返回 false
+
+注意：
+请记得 重置 在 Vector2D 中声明的类变量（静态变量），因为类变量会 在多个测试用例中保持不变，影响判题准确。请 查阅 这里。
+你可以假定 next() 的调用总是合法的，即当 next() 被调用时，二维向量总是存在至少一个后续元素。
+
+进阶：
+尝试在代码中仅使用 C++ 提供的迭代器 或 Java 提供的迭代器
+
+class Vector2D {
+public:
+    Vector2D(vector<vector<int>>& v) {
+        
+    }
+    
+    int next() {
+        
+    }
+    
+    bool hasNext() {
+        
+    }
+};
+
+/**
+ * Your Vector2D object will be instantiated and called as such:
+ * Vector2D* obj = new Vector2D(v);
+ * int param_1 = obj->next();
+ * bool param_2 = obj->hasNext();
+ */
+
+*****************************************************************************************************
+#297 Serialize and Deserialize Binary Tree
+*****************************************************************************************************
+Example: 
+You may serialize the following tree:
+
+    1
+   / \
+  2   3
+     / \
+    4   5
+
+as "[1,2,3,null,null,4,5]"
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        ostringstream out;
+        serialize(root, out);
+        return out.str();
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        istringstream in(data);
+        return deserialize(in);
+    }
+
+private:
+    void serialize(TreeNode* root, ostringstream& out) {
+        if (root) {
+            out << root->val << ' ';
+            serialize(root->left, out);
+            serialize(root->right, out);
+        } else {
+            out << "# ";
+        }
+    }
+
+    TreeNode* deserialize(istringstream& in) {
+        string val;
+        in >> val;
+        if (val == "#")
+            return nullptr;
+        TreeNode* root = new TreeNode(stoi(val));
+        root->left = deserialize(in);
+        root->right = deserialize(in);
+        return root;
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));
+
+*****************************************************************************************************
+#380 Insert Delete GetRandom O(1)
+*****************************************************************************************************
+Design a data structure that supports all following operations in average O(1) time.
+
+insert(val): Inserts an item val to the set if not already present.
+remove(val): Removes an item val from the set if present.
+getRandom: Returns a random element from current set of elements. Each element must have the same probability of being returned.
+
+Example:
+// Init an empty set.
+RandomizedSet randomSet = new RandomizedSet();
+
+// Inserts 1 to the set. Returns true as 1 was inserted successfully.
+randomSet.insert(1);
+
+// Returns false as 2 does not exist in the set.
+randomSet.remove(2);
+
+// Inserts 2 to the set, returns true. Set now contains [1,2].
+randomSet.insert(2);
+
+// getRandom should return either 1 or 2 randomly.
+randomSet.getRandom();
+
+// Removes 1 from the set, returns true. Set now contains [2].
+randomSet.remove(1);
+
+// 2 was already in the set, so return false.
+randomSet.insert(2);
+
+// Since 2 is the only number in the set, getRandom always return 2.
+randomSet.getRandom();
+
+class RandomizedSet {
+public:
+    /** Initialize your data structure here. */
+    RandomizedSet() {
+        
+    }
+    
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    bool insert(int val) {
+        if (m.find(val) != m.end()) return false;
+        nums.emplace_back(val);
+        m[val] = nums.size() - 1;
+        return true;
+    }
+    
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    bool remove(int val) {
+        if (m.find(val) == m.end()) return false;
+        int last = nums.back();
+        m[last] = m[val];
+        nums[m[val]] = last;
+        nums.pop_back();
+        m.erase(val);
+        return true;
+    }
+    
+    /** Get a random element from the set. */
+    int getRandom() {
+        return nums[rand() % nums.size()];
+    }
+    
+private:
+    vector<int> nums;
+    unordered_map<int, int> m;
+};
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet* obj = new RandomizedSet();
+ * bool param_1 = obj->insert(val);
+ * bool param_2 = obj->remove(val);
+ * int param_3 = obj->getRandom();
+ */
+
+*****************************************************************************************************
+#348 Design Tic-Tac-Toe(lock q)
+*****************************************************************************************************
+请在 n × n 的棋盘上，实现一个判定井字棋（Tic-Tac-Toe）胜负的神器，判断每一次玩家落子后，是否有胜出的玩家。
+在这个井字棋游戏中，会有 2 名玩家，他们将轮流在棋盘上放置自己的棋子。
+在实现这个判定器的过程中，你可以假设以下这些规则一定成立：
+      1. 每一步棋都是在棋盘内的，并且只能被放置在一个空的格子里；
+      2. 一旦游戏中有一名玩家胜出的话，游戏将不能再继续；
+      3. 一个玩家如果在同一行、同一列或者同一斜对角线上都放置了自己的棋子，那么他便获得胜利。
+
+示例:
+给定棋盘边长 n = 3, 玩家 1 的棋子符号是 "X"，玩家 2 的棋子符号是 "O"。
+
+TicTacToe toe = new TicTacToe(3);
+
+toe.move(0, 0, 1); -> 函数返回 0 (此时，暂时没有玩家赢得这场对决)
+|X| | |
+| | | |    // 玩家 1 在 (0, 0) 落子。
+| | | |
+
+toe.move(0, 2, 2); -> 函数返回 0 (暂时没有玩家赢得本场比赛)
+|X| |O|
+| | | |    // 玩家 2 在 (0, 2) 落子。
+| | | |
+
+toe.move(2, 2, 1); -> 函数返回 0 (暂时没有玩家赢得比赛)
+|X| |O|
+| | | |    // 玩家 1 在 (2, 2) 落子。
+| | |X|
+
+toe.move(1, 1, 2); -> 函数返回 0 (暂没有玩家赢得比赛)
+|X| |O|
+| |O| |    // 玩家 2 在 (1, 1) 落子。
+| | |X|
+
+toe.move(2, 0, 1); -> 函数返回 0 (暂无玩家赢得比赛)
+|X| |O|
+| |O| |    // 玩家 1 在 (2, 0) 落子。
+|X| |X|
+
+toe.move(1, 0, 2); -> 函数返回 0 (没有玩家赢得比赛)
+|X| |O|
+|O|O| |    // 玩家 2 在 (1, 0) 落子.
+|X| |X|
+
+toe.move(2, 1, 1); -> 函数返回 1 (此时，玩家 1 赢得了该场比赛)
+|X| |O|
+|O|O| |    // 玩家 1 在 (2, 1) 落子。
+|X|X|X|
+ 
+
+进阶:
+您有没有可能将每一步的 move() 操作优化到比 O(n^2) 更快吗?
+
+class TicTacToe {
+public:
+    /** Initialize your data structure here. */
+    TicTacToe(int n) {
+        
+    }
+    
+    /** Player {player} makes a move at ({row}, {col}).
+        @param row The row of the board.
+        @param col The column of the board.
+        @param player The player, can be either 1 or 2.
+        @return The current winning condition, can be either:
+                0: No one wins.
+                1: Player 1 wins.
+                2: Player 2 wins. */
+    int move(int row, int col, int player) {
+        
+    }
+};
+
+/**
+ * Your TicTacToe object will be instantiated and called as such:
+ * TicTacToe* obj = new TicTacToe(n);
+ * int param_1 = obj->move(row,col,player);
+ */
+

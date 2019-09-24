@@ -1,0 +1,115 @@
+Easy - Design
+*****************************************************************************************************
+#384 Shuffle an Array
+*****************************************************************************************************
+Example:
+// Init an array with set 1, 2, and 3.
+int[] nums = {1,2,3};
+Solution solution = new Solution(nums);
+// Shuffle the array [1,2,3] and return its result. Any permutation of [1,2,3] must equally likely to be returned.
+solution.shuffle();
+// Resets the array back to its original configuration [1,2,3].
+solution.reset();
+// Returns the random shuffling of array [1,2,3].
+solution.shuffle();
+
+cpp:
+class Solution {
+    vector<int> nums;
+public:
+    Solution(vector<int> nums) {
+        this->nums = nums;
+    }
+    
+    /** Resets the array to its original configuration and return it. */
+    vector<int> reset() {
+        return nums;
+    }
+    
+    /** Returns a random shuffling of the array. */
+    vector<int> shuffle() {
+        vector<int> result(nums);
+        for (int i = 0;i < result.size();i++) {
+            int pos = rand()%(result.size()-i);
+            swap(result[i+pos], result[i]);
+        }
+        return result;
+    }
+};
+
+java:
+class Solution {
+    private int[] array;
+    private int[] original;
+
+    Random rand = new Random();
+
+    private int randRange(int min, int max) {
+        return rand.nextInt(max - min) + min;
+    }
+
+    private void swapAt(int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+    public Solution(int[] nums) {
+        array = nums;
+        original = nums.clone();
+    }
+    
+    public int[] reset() {
+        array = original;
+        original = original.clone();
+        return original;
+    }
+    
+    public int[] shuffle() {
+        for (int i = 0; i < array.length; i++) {
+            swapAt(i, randRange(i, array.length));
+        }
+        return array;
+    }
+}
+
+*****************************************************************************************************
+#155 Min Stack
+*****************************************************************************************************
+Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+push(x) -- Push element x onto stack.
+pop() -- Removes the element on top of the stack.
+top() -- Get the top element.
+getMin() -- Retrieve the minimum element in the stack.
+ 
+Example:
+MinStack minStack = new MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.getMin();   --> Returns -3.
+minStack.pop();
+minStack.top();      --> Returns 0.
+minStack.getMin();   --> Returns -2.
+
+class MinStack {
+private:
+    stack<int> s1;
+    stack<int> s2;
+public:
+    void push(int x) {
+	    s1.push(x);
+	    if (s2.empty() || x <= getMin())  s2.push(x);	    
+    }
+    void pop() {
+	    if (s1.top() == getMin())  s2.pop();
+	    s1.pop();
+    }
+    int top() {
+	    return s1.top();
+    }
+    int getMin() {
+	    return s2.top();
+    }
+};
+

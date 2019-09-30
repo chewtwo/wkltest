@@ -1,0 +1,386 @@
+Medium - Trees and Graphs
+*****************************************************************************************************
+#94 Binary Tree Inorder Traversal
+    二叉树的中序遍历
+*****************************************************************************************************
+Example:
+Input: [1,null,2,3]
+   1
+    \
+     2
+    /
+   3
+Output: [1,3,2]
+
+1.Iterative solution using stack: O(n) time and O(n) space;
+2.Recursive solution: O(n) time and O(n) space (function call stack);
+3.Morris traversal: O(n) time and O(1) space.
+
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> nodes;
+        stack<TreeNode*> todo;
+        while (root || !todo.empty()) {
+            while (root) {
+                todo.push(root);
+                root = root -> left;
+            }
+            root = todo.top();
+            todo.pop();
+            nodes.push_back(root -> val);
+            root = root -> right;
+        }
+        return nodes;
+    }
+};
+
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> nodes;
+        inorder(root, nodes);
+        return nodes;
+    }
+private:
+    void inorder(TreeNode* root, vector<int>& nodes) {
+        if (!root) {
+            return;
+        }
+        inorder(root -> left, nodes);
+        nodes.push_back(root -> val);
+        inorder(root -> right, nodes);
+    }
+};
+
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> nodes;
+        while (root) {
+            if (root -> left) {
+                TreeNode* pre = root -> left;
+                while (pre -> right && pre -> right != root) {
+                    pre = pre -> right;
+                }
+                if (!pre -> right) {
+                    pre -> right = root;
+                    root = root -> left;
+                } else {
+                    pre -> right = NULL;
+                    nodes.push_back(root -> val);
+                    root = root -> right;
+                }
+            } else {
+                nodes.push_back(root -> val);
+                root = root -> right;
+            }
+        }
+        return nodes;
+    }
+};
+
+*****************************************************************************************************
+#103 Binary Tree Zigzag Level Order Traversal
+     二叉树的锯齿形层次遍历
+*****************************************************************************************************
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its zigzag level order traversal as:
+[
+  [3],
+  [20,9],
+  [15,7]
+]
+
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        if (root == NULL) {
+            return vector<vector<int> > ();
+        }
+        vector<vector<int> > result;
+
+        queue<TreeNode*> nodesQueue;
+        nodesQueue.push(root);
+        bool leftToRight = true;
+
+        while ( !nodesQueue.empty()) {
+            int size = nodesQueue.size();
+            vector<int> row(size);
+            for (int i = 0; i < size; i++) {
+                TreeNode* node = nodesQueue.front();
+                nodesQueue.pop();
+
+                // find position to fill node's value
+                int index = (leftToRight) ? i : (size - 1 - i);
+
+                row[index] = node->val;
+                if (node->left) {
+                    nodesQueue.push(node->left);
+                }
+                if (node->right) {
+                    nodesQueue.push(node->right);
+                }
+            }
+            // after this level
+            leftToRight = !leftToRight;
+            result.push_back(row);
+        }
+        return result;
+    }
+};
+
+*****************************************************************************************************
+#105 Construct Binary Tree from Preorder and Inorder Traversal
+     二叉树的锯齿形层次遍历
+*****************************************************************************************************
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        if (root == NULL) {
+            return vector<vector<int> > ();
+        }
+        vector<vector<int> > result;
+
+        queue<TreeNode*> nodesQueue;
+        nodesQueue.push(root);
+        bool leftToRight = true;
+
+        while ( !nodesQueue.empty()) {
+            int size = nodesQueue.size();
+            vector<int> row(size);
+            for (int i = 0; i < size; i++) {
+                TreeNode* node = nodesQueue.front();
+                nodesQueue.pop();
+
+                // find position to fill node's value
+                int index = (leftToRight) ? i : (size - 1 - i);
+
+                row[index] = node->val;
+                if (node->left) {
+                    nodesQueue.push(node->left);
+                }
+                if (node->right) {
+                    nodesQueue.push(node->right);
+                }
+            }
+            // after this level
+            leftToRight = !leftToRight;
+            result.push_back(row);
+        }
+        return result;
+    }
+};
+
+*****************************************************************************************************
+#116 Populating Next Right Pointers in Each Node
+     填充每个节点的下一个右侧节点指针 
+*****************************************************************************************************
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
+
+Example:
+Input: {"$id":"1","left":{"$id":"2","left":{"$id":"3","left":null,"next":null,"right":null,"val":4},"next":null,"right":{"$id":"4","left":null,"next":null,"right":null,"val":5},"val":2},"next":null,"right":{"$id":"5","left":{"$id":"6","left":null,"next":null,"right":null,"val":6},"next":null,"right":{"$id":"7","left":null,"next":null,"right":null,"val":7},"val":3},"val":1}
+Output: {"$id":"1","left":{"$id":"2","left":{"$id":"3","left":null,"next":{"$id":"4","left":null,"next":{"$id":"5","left":null,"next":{"$id":"6","left":null,"next":null,"right":null,"val":7},"right":null,"val":6},"right":null,"val":5},"right":null,"val":4},"next":{"$id":"7","left":{"$ref":"5"},"next":null,"right":{"$ref":"6"},"val":3},"right":{"$ref":"4"},"val":2},"next":null,"right":{"$ref":"7"},"val":1}
+Explanation: Given the above perfect binary tree (Figure A), your function should populate each next pointer to point to its next right node, just like in Figure B.
+
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next) {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
+    }
+};
+*/
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if (root == NULL) return root;
+        Node *pre = root;
+        Node *cur = NULL;
+        while(pre->left) {
+            cur = pre;
+            while(cur) {
+                cur->left->next = cur->right;
+                if(cur->next) cur->right->next = cur->next->left;
+                cur = cur->next;
+            }
+            pre = pre->left;
+        }
+        return root;
+    }
+};
+
+*****************************************************************************************************
+#230 Kth Smallest Element in a BST
+     二叉搜索树中第K小的元素 
+*****************************************************************************************************
+Example 1:
+Input: root = [3,1,4,null,2], k = 1
+   3
+  / \
+ 1   4
+  \
+   2
+Output: 1
+
+Example 2:
+Input: root = [5,3,6,2,4,null,null,1], k = 3
+       5
+      / \
+     3   6
+    / \
+   2   4
+  /
+ 1
+Output: 3
+
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        if(root==NULL) return 0;
+        stack<TreeNode *> st;
+        TreeNode *p = root;
+        while(p || !st.empty())
+        {
+            while(p)
+            {
+                st.push(p);
+                p = p->left;
+            }
+            p = st.top();
+            if(--k == 0)
+                return p->val;
+            st.pop();
+            p = p->right;
+        }
+        return p->val;
+    }
+};
+
+*****************************************************************************************************
+#285 Inorder Successor in BST(lock q)
+     二叉搜索树中的顺序后继 
+*****************************************************************************************************
+给你一个二叉搜索树和其中的某一个结点，请你找出该结点在树中顺序后继的节点。
+结点 p 的后继是值比 p.val 大的结点中键值最小的结点。
+
+示例 1:
+输入: root = [2,1,3], p = 1
+输出: 2
+解析: 这里 1 的顺序后继是 2。请注意 p 和返回值都应是 TreeNode 类型。
+
+示例 2:
+输入: root = [5,3,6,2,4,null,null,1], p = 6
+输出: null
+解析: 因为给出的结点没有顺序后继，所以答案就返回 null 了。
+ 
+注意:
+假如给出的结点在该树中没有顺序后继的话，请返回 null
+我们保证树中每个结点的值是唯一的
+
+class Solution {
+public:
+    TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
+        
+    }
+};
+
+*****************************************************************************************************
+#200 Number of Islands
+     岛屿数量 
+*****************************************************************************************************
+Example 1:
+Input:
+11110
+11010
+11000
+00000
+Output: 1
+
+Example 2:
+Input:
+11000
+11000
+00100
+00011
+Output: 3
+
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size(), n = m ? grid[0].size() : 0, islands = 0, offsets[] = {0, 1, 0, -1, 0};
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') {
+                    islands++;
+                    grid[i][j] = '0';
+                    queue<pair<int, int>> todo;
+                    todo.push({i, j});
+                    while (!todo.empty()) {
+                        pair<int, int> p = todo.front();
+                        todo.pop();
+                        for (int k = 0; k < 4; k++) {
+                            int r = p.first + offsets[k], c = p.second + offsets[k + 1];
+                            if (r >= 0 && r < m && c >= 0 && c < n && grid[r][c] == '1') {
+                                grid[r][c] = '0';
+                                todo.push({r, c});
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return islands;
+    }
+};
+
+class Solution {
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size(), n = m ? grid[0].size() : 0, islands = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') {
+                    islands++;
+                    eraseIslands(grid, i, j);
+                }
+            }
+        }
+        return islands;
+    }
+private:
+    void eraseIslands(vector<vector<char>>& grid, int i, int j) {
+        int m = grid.size(), n = grid[0].size();
+        if (i < 0 || i == m || j < 0 || j == n || grid[i][j] == '0') {
+            return;
+        }
+        grid[i][j] = '0';
+        eraseIslands(grid, i - 1, j);
+        eraseIslands(grid, i + 1, j);
+        eraseIslands(grid, i, j - 1);
+        eraseIslands(grid, i, j + 1);
+    }
+};
+

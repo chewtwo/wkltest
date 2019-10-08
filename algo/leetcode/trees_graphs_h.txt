@@ -1,0 +1,805 @@
+Hard - Trees and Graphs
+*****************************************************************************************************
+#127 Word Ladder
+     单词接龙
+*****************************************************************************************************
+Example 1:
+Input:
+beginWord = "hit",
+endWord = "cog",
+wordList = ["hot","dot","dog","lot","log","cog"]
+Output: 5
+Explanation: As one shortest transformation is "hit" -> "hot" -> "dot" -> "dog" -> "cog",
+return its length 5.
+
+Example 2:
+Input:
+beginWord = "hit"
+endWord = "cog"
+wordList = ["hot","dot","dog","lot","log"]
+Output: 0
+Explanation: The endWord "cog" is not in wordList, therefore no possible transformation.
+
+cpp:
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> dict(wordList.begin(), wordList.end()), head, tail, *phead, *ptail;
+        if (dict.find(endWord) == dict.end()) {
+            return 0;
+        }
+        head.insert(beginWord);
+        tail.insert(endWord);
+        int ladder = 2;
+        while (!head.empty() && !tail.empty()) {
+            if (head.size() < tail.size()) {
+                phead = &head;
+                ptail = &tail;
+            } else {
+                phead = &tail;
+                ptail = &head;
+            }
+            unordered_set<string> temp;
+            for (auto it = phead -> begin(); it != phead -> end(); it++) {    
+                string word = *it;
+                for (int i = 0; i < word.size(); i++) {
+                    char t = word[i];
+                    for (int j = 0; j < 26; j++) {
+                        word[i] = 'a' + j;
+                        if (ptail -> find(word) != ptail -> end()) {
+                            return ladder;
+                        }
+                        if (dict.find(word) != dict.end()) {
+                            temp.insert(word);
+                            dict.erase(word);
+                        }
+                    }
+                    word[i] = t;
+                }
+            }
+            ladder++;
+            phead -> swap(temp);
+        }
+        return 0;
+    }
+};
+
+java:
+import javafx.util.Pair;
+
+class Solution {
+  public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+
+    // Since all words are of same length.
+    int L = beginWord.length();
+
+    // Dictionary to hold combination of words that can be formed,
+    // from any given word. By changing one letter at a time.
+    HashMap<String, ArrayList<String>> allComboDict = new HashMap<String, ArrayList<String>>();
+
+    wordList.forEach(
+        word -> {
+          for (int i = 0; i < L; i++) {
+            // Key is the generic word
+            // Value is a list of words which have the same intermediate generic word.
+            String newWord = word.substring(0, i) + '*' + word.substring(i + 1, L);
+            ArrayList<String> transformations =
+                allComboDict.getOrDefault(newWord, new ArrayList<String>());
+            transformations.add(word);
+            allComboDict.put(newWord, transformations);
+          }
+        });
+
+    // Queue for BFS
+    Queue<Pair<String, Integer>> Q = new LinkedList<Pair<String, Integer>>();
+    Q.add(new Pair(beginWord, 1));
+
+    // Visited to make sure we don't repeat processing same word.
+    HashMap<String, Boolean> visited = new HashMap<String, Boolean>();
+    visited.put(beginWord, true);
+
+    while (!Q.isEmpty()) {
+      Pair<String, Integer> node = Q.remove();
+      String word = node.getKey();
+      int level = node.getValue();
+      for (int i = 0; i < L; i++) {
+
+        // Intermediate words for current word
+        String newWord = word.substring(0, i) + '*' + word.substring(i + 1, L);
+
+        // Next states are all the words which share the same intermediate state.
+        for (String adjacentWord : allComboDict.getOrDefault(newWord, new ArrayList<String>())) {
+          // If at any point if we find what we are looking for
+          // i.e. the end word - we can return with the answer.
+          if (adjacentWord.equals(endWord)) {
+            return level + 1;
+          }
+          // Otherwise, add it to the BFS Queue. Also mark it visited
+          if (!visited.containsKey(adjacentWord)) {
+            visited.put(adjacentWord, true);
+            Q.add(new Pair(adjacentWord, level + 1));
+          }
+        }
+      }
+    }
+
+    return 0;
+  }
+}
+
+import javafx.util.Pair;
+
+class Solution {
+
+  private int L;
+  private HashMap<String, ArrayList<String>> allComboDict;
+
+  Solution() {
+    this.L = 0;
+
+    // Dictionary to hold combination of words that can be formed,
+    // from any given word. By changing one letter at a time.
+    this.allComboDict = new HashMap<String, ArrayList<String>>();
+  }
+
+  private int visitWordNode(
+      Queue<Pair<String, Integer>> Q,
+      HashMap<String, Integer> visited,
+      HashMap<String, Integer> othersVisited) {
+    Pair<String, Integer> node = Q.remove();
+    String word = node.getKey();
+    int level = node.getValue();
+
+    for (int i = 0; i < this.L; i++) {
+
+      // Intermediate words for current word
+      String newWord = word.substring(0, i) + '*' + word.substring(i + 1, L);
+
+      // Next states are all the words which share the same intermediate state.
+      for (String adjacentWord : this.allComboDict.getOrDefault(newWord, new ArrayList<String>())) {
+        // If at any point if we find what we are looking for
+        // i.e. the end word - we can return with the answer.
+        if (othersVisited.containsKey(adjacentWord)) {
+          return level + othersVisited.get(adjacentWord);
+        }
+
+        if (!visited.containsKey(adjacentWord)) {
+
+          // Save the level as the value of the dictionary, to save number of hops.
+          visited.put(adjacentWord, level + 1);
+          Q.add(new Pair(adjacentWord, level + 1));
+        }
+      }
+    }
+    return -1;
+  }
+
+  public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+
+    if (!wordList.contains(endWord)) {
+      return 0;
+    }
+
+    // Since all words are of same length.
+    this.L = beginWord.length();
+
+    wordList.forEach(
+        word -> {
+          for (int i = 0; i < L; i++) {
+            // Key is the generic word
+            // Value is a list of words which have the same intermediate generic word.
+            String newWord = word.substring(0, i) + '*' + word.substring(i + 1, L);
+            ArrayList<String> transformations =
+                this.allComboDict.getOrDefault(newWord, new ArrayList<String>());
+            transformations.add(word);
+            this.allComboDict.put(newWord, transformations);
+          }
+        });
+
+    // Queues for birdirectional BFS
+    // BFS starting from beginWord
+    Queue<Pair<String, Integer>> Q_begin = new LinkedList<Pair<String, Integer>>();
+    // BFS starting from endWord
+    Queue<Pair<String, Integer>> Q_end = new LinkedList<Pair<String, Integer>>();
+    Q_begin.add(new Pair(beginWord, 1));
+    Q_end.add(new Pair(endWord, 1));
+
+    // Visited to make sure we don't repeat processing same word.
+    HashMap<String, Integer> visitedBegin = new HashMap<String, Integer>();
+    HashMap<String, Integer> visitedEnd = new HashMap<String, Integer>();
+    visitedBegin.put(beginWord, 1);
+    visitedEnd.put(endWord, 1);
+
+    while (!Q_begin.isEmpty() && !Q_end.isEmpty()) {
+
+      // One hop from begin word
+      int ans = visitWordNode(Q_begin, visitedBegin, visitedEnd);
+      if (ans > -1) {
+        return ans;
+      }
+
+      // One hop from end word
+      ans = visitWordNode(Q_end, visitedEnd, visitedBegin);
+      if (ans > -1) {
+        return ans;
+      }
+    }
+
+    return 0;
+  }
+}
+
+*****************************************************************************************************
+#130 Surrounded Regions
+     被围绕的区域
+*****************************************************************************************************
+Example:
+X X X X
+X O O X
+X X O X
+X O X X
+After running your function, the board should be:
+X X X X
+X X X X
+X X X X
+X O X X
+
+class Solution {
+public:
+    void solve(vector<vector<char>>& board) {
+        int i,j;
+        int row=board.size();
+        if(!row)
+        	return;
+        int col=board[0].size();
+
+		for(i=0;i<row;i++){
+			check(board,i,0,row,col);
+			if(col>1)
+				check(board,i,col-1,row,col);
+		}
+		for(j=1;j+1<col;j++){
+			check(board,0,j,row,col);
+			if(row>1)
+				check(board,row-1,j,row,col);
+		}
+		for(i=0;i<row;i++)
+			for(j=0;j<col;j++)
+				if(board[i][j]=='O')
+					board[i][j]='X';
+		for(i=0;i<row;i++)
+			for(j=0;j<col;j++)
+				if(board[i][j]=='1')
+					board[i][j]='O';
+    }
+    
+    void check(vector<vector<char> >&vec,int i,int j,int row,int col){
+		if(vec[i][j]=='O'){
+			vec[i][j]='1';
+			if(i>1)
+				check(vec,i-1,j,row,col);
+			if(j>1)
+				check(vec,i,j-1,row,col);
+			if(i+1<row)
+				check(vec,i+1,j,row,col);
+			if(j+1<col)
+				check(vec,i,j+1,row,col);
+		}
+	}
+};
+
+*****************************************************************************************************
+#236 Lowest Common Ancestor of a Binary Tree
+     二叉树的最近公共祖先
+*****************************************************************************************************
+Given the following binary tree:  root = [3,5,1,6,2,0,8,null,null,7,4]
+Example 1:
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+Output: 3
+Explanation: The LCA of nodes 5 and 1 is 3.
+
+Example 2:
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+Output: 5
+Explanation: The LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
+
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root || root == p || root == q) return root;
+        TreeNode* left = lowestCommonAncestor(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor(root->right, p, q);
+        return !left ? right : !right ? left : root;
+    }
+};
+
+*****************************************************************************************************
+#124 Binary Tree Maximum Path Sum
+     二叉树中的最大路径和
+*****************************************************************************************************
+Example 1:
+Input: [1,2,3]
+       1
+      / \
+     2   3
+Output: 6
+
+Example 2:
+Input: [-10,9,20,null,null,15,7]
+   -10
+   / \
+  9  20
+    /  \
+   15   7
+Output: 42
+
+class Solution {
+public:
+    int maxPathSum(TreeNode* root) {
+        int max = -2147483648;
+        maxToRoot(root, max);
+        return max;
+    }
+    
+    int maxToRoot(TreeNode *root, int &re) {
+        if (!root) return 0;
+        int l = maxToRoot(root->left, re);
+        int r = maxToRoot(root->right, re);
+        if (l < 0) l = 0;
+        if (r < 0) r = 0;
+        if (l + r + root->val > re) re = l + r + root->val;
+        return root->val += max(l, r);
+    }
+};
+
+*****************************************************************************************************
+#547 Friend Circles
+     朋友圈
+*****************************************************************************************************
+Example 1:
+Input: 
+[[1,1,0],
+ [1,1,0],
+ [0,0,1]]
+Output: 2
+Explanation:The 0th and 1st students are direct friends, so they are in a friend circle. 
+The 2nd student himself is in a friend circle. So return 2.
+
+Example 2:
+Input: 
+[[1,1,0],
+ [1,1,1],
+ [0,1,1]]
+Output: 1
+Explanation:The 0th and 1st students are direct friends, the 1st and 2nd students are direct friends, 
+so the 0th and 2nd students are indirect friends. All of them are in the same friend circle, so return 1.
+
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& M) {
+        if (M.empty()) return 0;
+        int n = M.size();
+        vector<bool> visited(n, false);
+        int groups = 0;
+        for (int i = 0; i < visited.size(); i++) {
+            groups += !visited[i] ? dfs(i, M, visited), 1 : 0;
+        }
+        return groups;
+    }
+    
+private:
+    void dfs(int i, vector<vector<int>>& M, vector<bool>& visited) {
+        visited[i] = true;
+        for (int j = 0; j < visited.size(); j++) {
+            if (i != j && M[i][j] && !visited[j]) {
+                dfs(j, M, visited);
+            }
+        }
+    }
+};
+
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& M) {
+        if (M.empty()) return 0;
+        int n = M.size();
+
+        vector<int> leads(n, 0);
+        for (int i = 0; i < n; i++) { leads[i] = i; }   // initialize leads for every kid as themselves
+
+        int groups = n;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {   // avoid recalculate M[i][j], M[j][i]
+                if (M[i][j]) {
+                    int lead1 = find(i, leads);
+                    int lead2 = find(j, leads);
+                    if (lead1 != lead2) {       // if 2 group belongs 2 different leads, merge 2 group to 1
+                        leads[lead1] = lead2;
+                        groups--;
+                    }
+                }
+            }
+        }
+        return groups;
+    }
+    
+private:
+    int find(int x, vector<int>& parents) {
+        return parents[x] == x ? x : find(parents[x], parents);
+    }
+};
+
+*****************************************************************************************************
+#207 Course Schedule
+     课程表
+*****************************************************************************************************
+有向图是否存在循环
+Example 1:
+Input: 2, [[1,0]] 
+Output: true
+Explanation: There are a total of 2 courses to take. 
+             To take course 1 you should have finished course 0. So it is possible.
+
+Example 2:
+Input: 2, [[1,0],[0,1]]
+Output: false
+Explanation: There are a total of 2 courses to take. 
+             To take course 1 you should have finished course 0, and to take course 0 you should
+             also have finished course 1. So it is impossible.
+
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        graph g = buildGraph(numCourses, prerequisites);
+        vector<int> degrees = computeIndegrees(g);
+        for (int i = 0; i < numCourses; i++) {
+            int j = 0;
+            for (; j < numCourses; j++) {
+                if (!degrees[j]) {
+                    break;
+                }
+            }
+            if (j == numCourses) {
+                return false;
+            }
+            degrees[j]--;
+            for (int v : g[j]) {
+                degrees[v]--;
+            }
+        }
+        return true;
+    }
+    
+private:
+    typedef vector<vector<int>> graph;
+    
+    graph buildGraph(int numCourses, vector<vector<int>>& prerequisites) {
+        graph g(numCourses);
+        for (auto p : prerequisites) {
+            g[p[1]].push_back(p[0]);
+        }
+        return g;
+    }
+    
+    vector<int> computeIndegrees(graph& g) {
+        vector<int> degrees(g.size(), 0);
+        for (auto adj : g) {
+            for (int v : adj) {
+                degrees[v]++;
+            }
+        }
+        return degrees;
+    }
+};
+
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        graph g = buildGraph(numCourses, prerequisites);
+        vector<bool> todo(numCourses, false), done(numCourses, false);
+        for (int i = 0; i < numCourses; i++) {
+            if (!done[i] && !acyclic(g, todo, done, i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+private:
+    typedef vector<vector<int>> graph;
+    
+    graph buildGraph(int numCourses, vector<vector<int>>& prerequisites) {
+        graph g(numCourses);
+        for (auto p : prerequisites) {
+            g[p[1]].push_back(p[0]);
+        }
+        return g;
+    }
+    
+    bool acyclic(graph& g, vector<bool>& todo, vector<bool>& done, int node) {
+        if (todo[node]) {
+            return false;
+        }
+        if (done[node]) {
+            return true;
+        }
+        todo[node] = done[node] = true;
+        for (int v : g[node]) {
+            if (!acyclic(g, todo, done, v)) {
+                return false;
+            }
+        }
+        todo[node] = false;
+        return true;
+    }
+};
+
+*****************************************************************************************************
+#210 Course Schedule II
+     课程表 II
+*****************************************************************************************************
+Example 1:
+Input: 2, [[1,0]] 
+Output: [0,1]
+Explanation: There are a total of 2 courses to take. To take course 1 you should have finished   
+             course 0. So the correct course order is [0,1] .
+
+Example 2:
+Input: 4, [[1,0],[2,0],[3,1],[3,2]]
+Output: [0,1,2,3] or [0,2,1,3]
+Explanation: There are a total of 4 courses to take. To take course 3 you should have finished both     
+             courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. 
+             So one correct course order is [0,1,2,3]. Another correct ordering is [0,2,1,3] .
+
+cpp:
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        graph g = buildGraph(numCourses, prerequisites);
+        vector<int> degrees = computeIndegrees(g);
+        vector<int> order;
+        for (int i = 0; i < numCourses; i++) {
+            int j = 0;
+            for (; j < numCourses; j++) {
+                if (!degrees[j]) {
+                    order.push_back(j);
+                    break;
+                }
+            }
+            if (j == numCourses) {
+                return {};
+            }
+            degrees[j]--;
+            for (int v : g[j]) {
+                degrees[v]--;
+            }
+        }        
+        return order;
+    }
+
+private:
+    typedef vector<vector<int>> graph;
+    
+    graph buildGraph(int numCourses, vector<vector<int>>& prerequisites) {
+        graph g(numCourses);
+        for (auto p : prerequisites) {
+            g[p[1]].push_back(p[0]);
+        }
+        return g;
+    }
+    
+    vector<int> computeIndegrees(graph& g) {
+        vector<int> degrees(g.size(), 0);
+        for (auto adj : g) {
+            for (int v : adj) {
+                degrees[v]++;
+            }
+        }
+        return degrees;
+    }
+};
+
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        graph g = buildGraph(numCourses, prerequisites);
+        vector<int> order;
+        vector<bool> todo(numCourses, false), done(numCourses, false);
+        for (int i = 0; i < numCourses; i++) {
+            if (!done[i] && !acyclic(g, todo, done, i, order)) {
+                return {};
+            }
+        }
+        reverse(order.begin(), order.end());
+        return order;
+    }
+
+private:
+    typedef vector<vector<int>> graph;
+    
+    graph buildGraph(int numCourses, vector<vector<int>>& prerequisites) {
+        graph g(numCourses);
+        for (auto p : prerequisites) {
+            g[p[1]].push_back(p[0]);
+        }
+        return g;
+    }
+    
+    bool acyclic(graph& g, vector<bool>& todo, vector<bool>& done, int node, vector<int>& order) {
+        if (todo[node]) {
+            return false;
+        }
+        if (done[node]) {
+            return true;
+        }
+        todo[node] = done[node] = true;
+        for (int neigh : g[node]) {
+            if (!acyclic(g, todo, done, neigh, order)) {
+                return false;
+            }
+        }
+        order.push_back(node);
+        todo[node] = false;
+        return true;
+    }
+};
+
+java:
+class Solution {
+  static int WHITE = 1;
+  static int GRAY = 2;
+  static int BLACK = 3;
+
+  boolean isPossible;
+  Map<Integer, Integer> color;
+  Map<Integer, List<Integer>> adjList;
+  List<Integer> topologicalOrder;
+
+  private void init(int numCourses) {
+    this.isPossible = true;
+    this.color = new HashMap<Integer, Integer>();
+    this.adjList = new HashMap<Integer, List<Integer>>();
+    this.topologicalOrder = new ArrayList<Integer>();
+
+    // By default all vertces are WHITE
+    for (int i = 0; i < numCourses; i++) {
+      this.color.put(i, WHITE);
+    }
+  }
+
+  private void dfs(int node) {
+
+    // Don't recurse further if we found a cycle already
+    if (!this.isPossible) {
+      return;
+    }
+
+    // Start the recursion
+    this.color.put(node, GRAY);
+
+    // Traverse on neighboring vertices
+    for (Integer neighbor : this.adjList.getOrDefault(node, new ArrayList<Integer>())) {
+      if (this.color.get(neighbor) == WHITE) {
+        this.dfs(neighbor);
+      } else if (this.color.get(neighbor) == GRAY) {
+        // An edge to a GRAY vertex represents a cycle
+        this.isPossible = false;
+      }
+    }
+
+    // Recursion ends. We mark it as black
+    this.color.put(node, BLACK);
+    this.topologicalOrder.add(node);
+  }
+
+  public int[] findOrder(int numCourses, int[][] prerequisites) {
+
+    this.init(numCourses);
+
+    // Create the adjacency list representation of the graph
+    for (int i = 0; i < prerequisites.length; i++) {
+      int dest = prerequisites[i][0];
+      int src = prerequisites[i][1];
+      List<Integer> lst = adjList.getOrDefault(src, new ArrayList<Integer>());
+      lst.add(dest);
+      adjList.put(src, lst);
+    }
+
+    // If the node is unprocessed, then call dfs on it.
+    for (int i = 0; i < numCourses; i++) {
+      if (this.color.get(i) == WHITE) {
+        this.dfs(i);
+      }
+    }
+
+    int[] order;
+    if (this.isPossible) {
+      order = new int[numCourses];
+      for (int i = 0; i < numCourses; i++) {
+        order[i] = this.topologicalOrder.get(numCourses - i - 1);
+      }
+    } else {
+      order = new int[0];
+    }
+
+    return order;
+  }
+}
+
+class Solution {
+  public int[] findOrder(int numCourses, int[][] prerequisites) {
+
+    boolean isPossible = true;
+    Map<Integer, List<Integer>> adjList = new HashMap<Integer, List<Integer>>();
+    int[] indegree = new int[numCourses];
+    int[] topologicalOrder = new int[numCourses];
+
+    // Create the adjacency list representation of the graph
+    for (int i = 0; i < prerequisites.length; i++) {
+      int dest = prerequisites[i][0];
+      int src = prerequisites[i][1];
+      List<Integer> lst = adjList.getOrDefault(src, new ArrayList<Integer>());
+      lst.add(dest);
+      adjList.put(src, lst);
+
+      // Record in-degree of each vertex
+      indegree[dest] += 1;
+    }
+
+    // Add all vertices with 0 in-degree to the queue
+    Queue<Integer> q = new LinkedList<Integer>();
+    for (int i = 0; i < numCourses; i++) {
+      if (indegree[i] == 0) {
+        q.add(i);
+      }
+    }
+
+    int i = 0;
+    // Process until the Q becomes empty
+    while (!q.isEmpty()) {
+      int node = q.remove();
+      topologicalOrder[i++] = node;
+
+      // Reduce the in-degree of each neighbor by 1
+      if (adjList.containsKey(node)) {
+        for (Integer neighbor : adjList.get(node)) {
+          indegree[neighbor]--;
+
+          // If in-degree of a neighbor becomes 0, add it to the Q
+          if (indegree[neighbor] == 0) {
+            q.add(neighbor);
+          }
+        }
+      }
+    }
+
+    // Check to see if topological sort is possible or not.
+    if (i == numCourses) {
+      return topologicalOrder;
+    }
+
+    return new int[0];
+  }
+}
+
+*****************************************************************************************************
+#329 2Longest Increasing Path in a Matrix
+     矩阵中的最长递增路径
+*****************************************************************************************************
+
+
+
+[]leet [
+    0034 0134 0395 0006 0009
+    0012 0016 0018 0024 0025
+    0027 0030 0031 0032 0035
+    0037 0039 0040 0043 0045 0047
+]
+
+
+
+329.2Longest Increasing Path in a Matrix
+269.Alien Dictionary
+315.Count of Smaller Numbers After Self
+
+

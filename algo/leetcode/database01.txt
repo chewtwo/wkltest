@@ -288,7 +288,7 @@ where customers.id not in
 );
 
 *****************************************************************************************************
-#184 Customers Who Never Order
+#184 Department Highest Salary
 *****************************************************************************************************
 Create table If Not Exists Employee (Id int, Name varchar(255), Salary int, DepartmentId int)
 Create table If Not Exists Department (Id int, Name varchar(255))

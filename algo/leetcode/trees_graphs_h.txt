@@ -786,20 +786,181 @@ class Solution {
 #329 2Longest Increasing Path in a Matrix
      矩阵中的最长递增路径
 *****************************************************************************************************
+Example 1:
+Input: nums = 
+[
+  [9,9,4],
+  [6,6,8],
+  [2,1,1]
+] 
+Output: 4 
+Explanation: The longest increasing path is [1, 2, 6, 9].
 
+Example 2:
+Input: nums = 
+[
+  [3,4,5],
+  [3,2,6],
+  [2,2,1]
+] 
+Output: 4 
+Explanation: The longest increasing path is [3, 4, 5, 6]. Moving diagonally is not allowed.
 
+class Solution {
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        if (matrix.empty())
+            return 0;
+        int max_len = 0;
+        vector<vector<int>> dp (matrix.size(), vector<int> (matrix[0].size(),0));
+        for (int i = 0 ; i < matrix.size(); i ++) {
+            for (int j = 0 ; j < matrix[0].size();j++) {
+                max_len = max(max_len, dfs(matrix, i, j, dp));
+            }
+        }
+        return max_len;
+    }
+    int dfs(vector<vector<int>>& matrix, int i, int j, vector<vector<int>>& dp) {
+        if (dp[i][j] != 0)
+            return dp[i][j];
+        if (i-1 >=0 && matrix[i-1][j] > matrix[i][j])
+            dp[i][j] = max(dp[i][j], dfs(matrix, i-1, j, dp));
+        if (j-1 >=0 && matrix[i][j-1] > matrix[i][j])
+            dp[i][j] = max(dp[i][j], dfs(matrix, i, j-1, dp));
+        if (i+1 <matrix.size() && matrix[i+1][j] > matrix[i][j])
+            dp[i][j] = max(dp[i][j], dfs(matrix, i+1, j, dp));
+        if (j+1 <matrix[0].size() && matrix[i][j+1] > matrix[i][j])
+            dp[i][j] = max(dp[i][j], dfs(matrix, i, j+1, dp));
+        return ++dp[i][j];
+    }
+};
 
-[]leet [
-    0034 0134 0395 0006 0009
-    0012 0016 0018 0024 0025
-    0027 0030 0031 0032 0035
-    0037 0039 0040 0043 0045 0047
+*****************************************************************************************************
+#269 Alien Dictionary (lock q)
+     火星词典
+*****************************************************************************************************
+示例 1：
+输入:
+[
+  "wrt",
+  "wrf",
+  "er",
+  "ett",
+  "rftt"
 ]
 
+输出: "wertf"
 
+示例 2：
+输入:
+[
+  "z",
+  "x"
+]
+输出: "zx"
 
-329.2Longest Increasing Path in a Matrix
-269.Alien Dictionary
-315.Count of Smaller Numbers After Self
+示例 3：
+输入:
+[
+  "z",
+  "x",
+  "z"
+] 
+输出: "" 
+解释: 此顺序是非法的，因此返回 ""。
 
+class Solution {
+public:
+    string alienOrder(vector<string>& words) {
+        set<pair<char, char>> st;
+        unordered_set<char> ch;
+        vector<int> in(256);
+        queue<char> q;
+        string res;
+        for (auto a : words) ch.insert(a.begin(), a.end());
+        for (int i = 0; i < (int)words.size() - 1; ++i) {
+            int mn = min(words[i].size(), words[i + 1].size()), j = 0;
+            for (; j < mn; ++j) {
+                if (words[i][j] != words[i + 1][j]) {
+                    st.insert(make_pair(words[i][j], words[i + 1][j]));
+                    break;
+                }
+            }
+            if (j == mn && words[i].size() > words[i + 1].size()) return "";
+        }
+        for (auto a : st) ++in[a.second];
+        for (auto a : ch) {
+            if (in[a] == 0) {
+                q.push(a);
+                res += a;
+            } 
+        }
+        while (!q.empty()) {
+            char c = q.front(); q.pop();
+            for (auto a : st) {
+                if (a.first == c) {
+                    --in[a.second];
+                    if (in[a.second] == 0) {
+                        q.push(a.second);
+                        res += a.second;
+                    }
+                }
+            }
+        }
+        return res.size() == ch.size() ? res : "";
+    }
+};
+
+*****************************************************************************************************
+#315 Count of Smaller Numbers After Self
+     计算右侧小于当前元素的个数 
+*****************************************************************************************************
+Example:
+Input: [5,2,6,1]
+Output: [2,1,1,0] 
+Explanation:
+To the right of 5 there are 2 smaller elements (2 and 1).
+To the right of 2 there is only 1 smaller element (1).
+To the right of 6 there is 1 smaller element (1).
+To the right of 1 there is 0 smaller element.
+
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> results(n, 0);
+        vector<int> indices(n, 0);
+        iota(indices.begin(), indices.end(), 0);
+        merge_countSmaller(indices, 0, n, results, nums);
+        return results;
+    }
+    void merge_countSmaller(vector<int>& indices, int first, int last, 
+                            vector<int>& results, vector<int>& nums) {
+        int count = last - first;
+        if (count > 1) {
+            int step = count / 2;
+            int mid = first + step;
+            merge_countSmaller(indices, first, mid, results, nums);
+            merge_countSmaller(indices, mid, last, results, nums);
+            vector<int> tmp;
+            tmp.reserve(count);
+            int idx1 = first;
+            int idx2 = mid;
+            int semicount = 0;
+            while ((idx1 < mid) || (idx2 < last)) {
+                if ((idx2 == last) || ((idx1 < mid) &&
+                       (nums[indices[idx1]] <= nums[indices[idx2]]))) {
+					tmp.push_back(indices[idx1]);
+                    results[indices[idx1]] += semicount;
+                    ++idx1;
+                } else {
+					tmp.push_back(indices[idx2]);
+                    ++semicount;
+                    ++idx2;
+                }
+            }
+            move(tmp.begin(), tmp.end(), indices.begin()+first);
+        }
+    }
+};
 

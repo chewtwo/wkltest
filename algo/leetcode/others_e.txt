@@ -1,0 +1,226 @@
+Easy - Others
+
+191.Number of 1 Bits
+    位1的个数
+461.Hamming Distance
+    汉明距离
+190.Reverse Bits
+    颠倒二进制位
+118.Pascal's Triangle
+    杨辉三角
+20.Valid Parentheses
+   有效的括号
+268.Missing Number
+    缺失数字
+
+*****************************************************************************************************
+#191 Number of 1 Bits
+     位1的个数
+*****************************************************************************************************
+Example 1:
+Input: 00000000000000000000000000001011
+Output: 3
+Explanation: The input binary string 00000000000000000000000000001011 has a total of three '1' bits.
+
+Example 2:
+Input: 00000000000000000000000010000000
+Output: 1
+Explanation: The input binary string 00000000000000000000000010000000 has a total of one '1' bit.
+
+Example 3:
+Input: 11111111111111111111111111111101
+Output: 31
+Explanation: The input binary string 11111111111111111111111111111101 has a total of thirty one '1' bits.
+
+n &= (n - 1)每次消掉末尾的一个1 xxx100&xxx011=xxx000
+
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        int sum = 0;
+        while (n != 0) {
+            sum++;
+            n &= (n - 1);
+        }
+        return sum;
+    }
+};
+
+*****************************************************************************************************
+#461 Hamming Distance
+     汉明距离
+*****************************************************************************************************
+Note:
+0 ≤ x, y < 231.
+Example:
+Input: x = 1, y = 4
+Output: 2
+Explanation:
+1   (0 0 0 1)
+4   (0 1 0 0)
+       ↑   ↑
+The above arrows point to positions where the corresponding bits are different.
+
+class Solution {
+public:
+    int hammingDistance(int x, int y) {
+        int n = x^y;
+        int dist = 0;
+        while (n != 0) {
+            dist++;
+            n &= (n - 1);
+        }
+        return dist;
+    }
+};
+
+*****************************************************************************************************
+#190 Reverse Bits
+     颠倒二进制位
+*****************************************************************************************************
+Example 1:
+Input: 00000010100101000001111010011100
+Output: 00111001011110000010100101000000
+Explanation: The input binary string 00000010100101000001111010011100 represents the unsigned integer 43261596, 
+so return 964176192 which its binary representation is 00111001011110000010100101000000.
+
+Example 2:
+Input: 11111111111111111111111111111101
+Output: 10111111111111111111111111111111
+Explanation: The input binary string 11111111111111111111111111111101 represents the unsigned integer 4294967293, 
+so return 3221225471 which its binary representation is 10111111111111111111111111111111.
+
+class Solution {
+public:
+    uint32_t reverseBits(uint32_t n) {
+        n = (n >> 16) | (n << 16);
+        n = ((n & 0xff00ff00) >> 8) | ((n & 0x00ff00ff) << 8);
+        n = ((n & 0xf0f0f0f0) >> 4) | ((n & 0x0f0f0f0f) << 4);
+        n = ((n & 0xcccccccc) >> 2) | ((n & 0x33333333) << 2);
+        n = ((n & 0xaaaaaaaa) >> 1) | ((n & 0x55555555) << 1);
+        return n;
+    }
+};
+
+class Solution {
+public:
+    uint32_t reverseBits(uint32_t n) {
+        uint32_t result= 0;
+        for(int i=0; i<32; i++)
+            result = (result<<1) + (n>>i &1);
+        return result;
+    }
+};
+
+*****************************************************************************************************
+#118 Pascal's Triangle
+     杨辉三角
+*****************************************************************************************************
+Example:
+Input: 5
+Output:
+[
+     [1],
+    [1,1],
+   [1,2,1],
+  [1,3,3,1],
+ [1,4,6,4,1]
+]
+
+class Solution {
+public:
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>> r(numRows);
+        for (int i = 0; i < numRows; i++) {
+            r[i].resize(i + 1);
+            r[i][0] = r[i][i] = 1;
+  
+            for (int j = 1; j < i; j++)
+                r[i][j] = r[i - 1][j - 1] + r[i - 1][j];
+        }        
+        return r;
+    }
+};
+
+*****************************************************************************************************
+#20 Valid Parentheses
+    有效的括号
+*****************************************************************************************************
+Example 1:
+Input: "()"
+Output: true
+
+Example 2:
+Input: "()[]{}"
+Output: true
+
+Example 3:
+Input: "(]"
+Output: false
+
+Example 4:
+Input: "([)]"
+Output: false
+
+Example 5:
+Input: "{[]}"
+Output: true
+
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char> stk;
+        for(const auto& c : s){
+            switch(c){
+                case '{':  stk.push('}'); break;
+                case '[':  stk.push(']'); break;
+                case '(':  stk.push(')'); break;
+                default:
+                    if(stk.size() == 0 || c != stk.top()) return false;
+                    else stk.pop();
+            }
+        }
+        return stk.size() == 0;
+    }
+};
+
+*****************************************************************************************************
+#268 Missing Number
+    缺失数字
+*****************************************************************************************************
+Example 1:
+Input: [3,0,1]
+Output: 2
+
+Example 2:
+Input: [9,6,4,2,3,5,7,0,1]
+Output: 8
+
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int missing = nums.size();
+        for (int i = 0; i < nums.size(); i++) {
+            missing ^= i ^ nums[i];
+        }
+        return missing;
+    }
+};
+
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int expectedSum = nums.size()*(nums.size() + 1)/2;
+        int actualSum = 0;
+        for (int num : nums) actualSum += num;
+        return expectedSum - actualSum;
+    }
+};
+
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int n = nums.size();
+        return n * (n+1) / 2 - accumulate(begin(nums), end(nums), 0);
+    }
+};

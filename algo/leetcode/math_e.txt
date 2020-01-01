@@ -1,0 +1,218 @@
+Easy - Math
+
+412.Fizz Buzz
+204.Count Primes
+    计数质数
+326.Power of Three
+    3的幂
+13.Roman to Integer
+   罗马数字转整数
+
+*****************************************************************************************************
+#412 Fizz Buzz
+*****************************************************************************************************
+Example:
+n = 15,
+Return:
+[
+    "1",
+    "2",
+    "Fizz",
+    "4",
+    "Buzz",
+    "Fizz",
+    "7",
+    "8",
+    "Fizz",
+    "Buzz",
+    "11",
+    "Fizz",
+    "13",
+    "14",
+    "FizzBuzz"
+]
+
+一种if-else  一种string+="F or B"->empty_string+=number
+
+class Solution {
+public:
+    vector<string> fizzBuzz(int n) {
+        vector<string> res(n);
+        for(int i = 1;i <= n; i++) {
+            res[i - 1] = to_string(i);
+        }
+        for(int i = 2;i < n; i += 3) {
+            res[i] = "Fizz";
+        }
+        for(int i = 4;i < n; i += 5) {
+            res[i] = "Buzz";
+        }
+        for(int i = 14;i < n; i += 15) {
+            res[i] = "FizzBuzz";
+        }
+        return res;
+    }
+};
+
+*****************************************************************************************************
+#204 Count Primes
+     计数质数
+*****************************************************************************************************
+Example:
+Input: 10
+Output: 4
+Explanation: There are 4 prime numbers less than 10, they are 2, 3, 5, 7.
+
+class Solution {
+public:
+    int countPrimes(int n) {
+        if (n<=2) return 0;
+        vector<bool> passed(n, false);
+        int sum = 1;
+        int upper = sqrt(n);
+        for (int i=3; i<n; i+=2) {
+            if (!passed[i]) {
+                sum++;
+                //avoid overflow
+                if (i>upper) continue;
+                for (int j=i*i; j<n; j+=i) {
+                    passed[j] = true;
+                }
+            }
+        }
+        return sum;
+    }
+};
+
+*****************************************************************************************************
+#326 Power of Three
+     3的幂
+*****************************************************************************************************
+Example 1:
+Input: 27
+Output: true
+
+Example 2:
+Input: 0
+Output: false
+
+Example 3:
+Input: 9
+Output: true
+
+Example 4:
+Input: 45
+Output: false
+
+class Solution {
+public:
+    bool isPowerOfThree(int n) {
+        while (n > 1) {
+            if (n % 3) return false;
+            n /= 3;
+        }
+        return n > 0;
+    }
+};
+
+class Solution {
+public:
+    bool isPowerOfThree(int n) {
+        return n > 0 && 1162261467 % n == 0;
+    }
+};
+
+class Solution {
+public:
+    bool isPowerOfThree(int n) {
+        return fmod(log10(n)/log10(3), 1)==0;
+    }
+};
+
+*****************************************************************************************************
+#13 Roman to Integer
+    罗马数字转整数
+*****************************************************************************************************
+Symbol       Value
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000
+
+Example 1:
+Input: "III"
+Output: 3
+
+Example 2:
+Input: "IV"
+Output: 4
+
+Example 3:
+Input: "IX"
+Output: 9
+
+Example 4:
+Input: "LVIII"
+Output: 58
+Explanation: L = 50, V= 5, III = 3.
+
+Example 5:
+Input: "MCMXCIV"
+Output: 1994
+Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+
+class Solution {
+public:
+    int romanToInt(string s) {
+        int sum=0;
+        if(s.find("IV")!=std::string::npos){sum-=2;}
+        if(s.find("IX")!=std::string::npos){sum-=2;}
+        if(s.find("XL")!=std::string::npos){sum-=20;}
+        if(s.find("XC")!=std::string::npos){sum-=20;}
+        if(s.find("CD")!=std::string::npos){sum-=200;}
+        if(s.find("CM")!=std::string::npos){sum-=200;}
+
+        for(int count=0;count<s.length();count++){
+           if(s.at(count)=='M') sum+=1000;
+           else if(s.at(count)=='D') sum+=500;
+           else if(s.at(count)=='C') sum+=100;
+           else if(s.at(count)=='L') sum+=50;
+           else if(s.at(count)=='X') sum+=10;
+           else if(s.at(count)=='V') sum+=5;
+           else if(s.at(count)=='I') sum+=1;
+       }
+       return sum;
+    }
+};
+
+class Solution {
+public:
+    int romanToInt(string s) {
+        unordered_map<char, int> T = { { 'I' , 1 },
+                                   { 'V' , 5 },
+                                   { 'X' , 10 },
+                                   { 'L' , 50 },
+                                   { 'C' , 100 },
+                                   { 'D' , 500 },
+                                   { 'M' , 1000 } };
+                                   
+       int sum = T[s.back()];
+       for (int i = s.length() - 2; i >= 0; --i) 
+       {
+           if (T[s[i]] < T[s[i + 1]])
+           {
+               sum -= T[s[i]];
+           }
+           else
+           {
+               sum += T[s[i]];
+           }
+       }
+
+       return sum;
+    }
+};
+

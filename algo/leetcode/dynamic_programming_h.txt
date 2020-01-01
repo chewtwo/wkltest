@@ -1,0 +1,349 @@
+Hard - Dynamic Programming
+
+152.Maximum Product Subarray
+    乘积最大子序列
+91.Decode Ways
+   解码方法
+309.Best Time to Buy and Sell Stock with Cooldown
+    最佳买卖股票时机含冷冻期
+279.Perfect Squares
+    完全平方数
+139.Word Break
+    单词拆分
+140.Word Break II
+    单词拆分 II
+312.Burst Balloons
+    戳气球
+
+*****************************************************************************************************
+#152 Maximum Product Subarray
+     乘积最大子序列
+*****************************************************************************************************
+size>=1
+Example 1:
+Input: [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.
+
+Example 2:
+Input: [-2,0,-1]
+Output: 0
+Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        if(nums.size()==1) return nums[0];
+        // store the result that is the max we have found so far
+        int r = nums[0];
+
+        // imax/imin stores the max/min product of
+        // subarray that ends with the current number A[i]
+        for (int i = 1, imax = r, imin = r; i < nums.size(); i++) {
+            // multiplied by a negative makes big number smaller, small number bigger
+            // so we redefine the extremums by swapping them
+            if (nums[i] < 0)
+                swap(imax, imin);
+
+            // max/min product for the current number is either the current number itself
+            // or the max/min by the previous number times the current one
+            imax = max(nums[i], imax * nums[i]);
+            imin = min(nums[i], imin * nums[i]);
+
+            // the newly computed max value is a candidate for our global result
+            r = max(r, imax);
+        }
+        return r;
+    }
+};
+
+*****************************************************************************************************
+#91 Decode Ways
+    解码方法
+*****************************************************************************************************
+non-empty
+Example 1:
+Input: "12"
+Output: 2
+Explanation: It could be decoded as "AB" (1 2) or "L" (12).
+
+Example 2:
+Input: "226"
+Output: 3
+Explanation: It could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
+
+class Solution {
+public:
+    int numDecodings(string s) {
+        int p = 1, pp, n = s.size();
+        for(int i=n-1;i>=0;i--) {
+            int cur = s[i]=='0' ? 0 : p;
+            if(i<n-1 && (s[i]=='1'||s[i]=='2'&&s[i+1]<'7')) cur+=pp;
+            pp = p;
+            p = cur;
+        }
+        return s.empty()? 0 : p;
+    }
+};
+
+*****************************************************************************************************
+#309 Best Time to Buy and Sell Stock with Cooldown
+     最佳买卖股票时机含冷冻期
+*****************************************************************************************************
+You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
+After you sell your stock, you cannot buy stock on next day. (ie, cooldown 1 day)
+Example:
+Input: [1,2,3,0,2]
+Output: 3 
+Explanation: transactions = [buy, sell, cooldown, buy, sell]
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int buy(INT_MIN), sell(0), prev_sell(0), prev_buy;
+        for (int price : prices) {
+            prev_buy = buy;
+            buy = max(prev_sell - price, buy);
+            prev_sell = sell;
+            sell = max(prev_buy + price, sell);
+        }
+        return sell;
+    }
+};
+
+*****************************************************************************************************
+#279 Perfect Squares
+     完全平方数
+*****************************************************************************************************
+Example 1:
+Input: n = 12
+Output: 3 
+Explanation: 12 = 4 + 4 + 4.
+
+Example 2:
+Input: n = 13
+Output: 2
+Explanation: 13 = 4 + 9.
+
+class Solution {
+private:  
+    int is_square(int n)
+    {  
+        int sqrt_n = (int)(sqrt(n));  
+        return (sqrt_n*sqrt_n == n);  
+    }
+    
+public:
+    // Based on Lagrange's Four Square theorem, there 
+    // are only 4 possible results: 1, 2, 3, 4.
+    int numSquares(int n) 
+    {  
+        // If n is a perfect square, return 1.
+        if(is_square(n)) 
+        {
+            return 1;  
+        }
+        
+        // The result is 4 if and only if n can be written in the 
+        // form of 4^k*(8*m + 7). Please refer to 
+        // Legendre's three-square theorem.
+        while ((n & 3) == 0) // n%4 == 0  
+        {
+            n >>= 2;  
+        }
+        if ((n & 7) == 7) // n%8 == 7
+        {
+            return 4;
+        }
+        
+        // Check whether 2 is the result.
+        int sqrt_n = (int)(sqrt(n)); 
+        for(int i = 1; i <= sqrt_n; i++)
+        {  
+            if (is_square(n - i*i)) 
+            {
+                return 2;  
+            }
+        }  
+        
+        return 3;  
+    }
+};
+
+int numSquares(int n) {
+    static vector<int> dp {0};
+    while (dp.size() <= n) {
+        int m = dp.size(), squares = INT_MAX;
+        for (int i=1; i*i<=m; ++i)
+            squares = min(squares, dp[m-i*i] + 1);
+        dp.push_back(squares);
+    }
+    return dp[n];
+}
+
+int numSquares(int n) {
+    static vector<int> dp {0};
+    int m = dp.size();
+    dp.resize(max(m, n+1), INT_MAX);
+    for (int i=1, i2; (i2 = i*i)<=n; ++i)
+        for (int j=max(m, i2); j<=n; ++j)
+            if (dp[j] > dp[j-i2] + 1)
+                dp[j] = dp[j-i2] + 1;
+    return dp[n];
+}
+
+*****************************************************************************************************
+#139 Word Break
+     单词拆分
+*****************************************************************************************************
+Gnon-empty string s
+non-empty words
+
+Note:
+The same word in the dictionary may be reused multiple times in the segmentation.
+You may assume the dictionary does not contain duplicate words.
+
+Example 1:
+Input: s = "leetcode", wordDict = ["leet", "code"]
+Output: true
+Explanation: Return true because "leetcode" can be segmented as "leet code".
+
+Example 2:
+Input: s = "applepenapple", wordDict = ["apple", "pen"]
+Output: true
+Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
+             Note that you are allowed to reuse a dictionary word.
+
+Example 3:
+Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
+Output: false
+
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        vector<bool> dp(s.size()+1,false);
+        dp[0]=true;
+        
+        for(int i=1;i<=s.size();i++)
+        {
+            for(int j=i-1;j>=0;j--)
+            {
+                if(dp[j])
+                {
+                    string word = s.substr(j,i-j);
+                    vector<string>::iterator it = find(wordDict.begin(), wordDict.end(), word);
+                    if(it!= wordDict.end())
+                    {
+                        dp[i]=true;
+                        break; //next i
+                    }
+                }
+            }
+        }
+        
+        return dp[s.size()];
+    }
+};
+
+*****************************************************************************************************
+#140 Word Break II
+     单词拆分 II
+*****************************************************************************************************
+non-empty string s
+non-empty words
+
+Example 1:
+Input:
+s = "catsanddog"
+wordDict = ["cat", "cats", "and", "sand", "dog"]
+Output:
+[
+  "cats and dog",
+  "cat sand dog"
+]
+
+Example 2:
+Input:
+s = "pineapplepenapple"
+wordDict = ["apple", "pen", "applepen", "pine", "pineapple"]
+Output:
+[
+  "pine apple pen apple",
+  "pineapple pen apple",
+  "pine applepen apple"
+]
+Explanation: Note that you are allowed to reuse a dictionary word.
+
+Example 3:
+Input:
+s = "catsandog"
+wordDict = ["cats", "dog", "sand", "and", "cat"]
+Output:
+[]
+
+暴力 O(n^3)
+记忆化回溯 O(n^3)
+dp O(n^3)
+
+记忆法？
+class Solution {
+    unordered_map<string, vector<string>> m;
+
+    vector<string> combine(string word, vector<string> prev){
+        for(int i=0;i<prev.size();++i){
+            prev[i]+=" "+word;
+        }
+        return prev;
+    }
+public:
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        if(m.count(s)) return m[s]; //take from memory
+        vector<string> result;
+        if(wordDict.end() != find(wordDict.begin(), wordDict.end(), s)){ //a whole string is a word
+            result.push_back(s);
+        }
+        for(int i=1;i<s.size();++i){
+            string word=s.substr(i);
+            if(wordDict.end() != find(wordDict.begin(), wordDict.end(), word)){
+                string rem=s.substr(0,i);
+                vector<string> prev=combine(word,wordBreak(rem,wordDict));
+                result.insert(result.end(),prev.begin(), prev.end());
+            }
+        }
+        m[s]=result; //memorize
+        return result;
+    }
+};
+
+*****************************************************************************************************
+#312 Burst Balloons
+     戳气球
+*****************************************************************************************************
+Example:
+Input: [3,1,5,8]
+Output: 167 
+Explanation: nums = [3,1,5,8] --> [3,5,8] -->   [3,8]   -->  [8]  --> []
+             coins =  3*1*5      +  3*5*8    +  1*3*8      + 1*8*1   = 167
+
+class Solution {
+public:
+    int maxCoins(vector<int>& nums) {
+        int inums[nums.size() + 2];
+        int n = 1;
+        for (int x : nums) if (x > 0) inums[n++] = x;
+        inums[0] = inums[n++] = 1;
+
+        int dp[n][n] = {};
+        for (int k = 2; k < n; ++k) {
+            for (int left = 0; left < n - k; ++left) {
+                int right = left + k;
+                for (int i = left + 1; i < right; ++i)
+                    dp[left][right] = max(dp[left][right],
+                         inums[left] * inums[i] * inums[right] + dp[left][i] + dp[i][right]);
+            }
+        }
+
+        return dp[0][n - 1];
+    }
+};
+

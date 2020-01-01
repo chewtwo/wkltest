@@ -1,0 +1,198 @@
+Easy - Dynamic Programming
+
+70.Climbing Stairs
+   爬楼梯
+121.Best Time to Buy and Sell Stock
+    买卖股票的最佳时机
+53.Maximum Subarray
+   最大子序和
+198.House Robber
+    打家劫舍
+
+*****************************************************************************************************
+#70 Climbing Stairs
+    爬楼梯
+*****************************************************************************************************
+Example 1:
+Input: 2
+Output: 2
+Explanation: There are two ways to climb to the top.
+1. 1 step + 1 step
+2. 2 steps
+
+Example 2:
+Input: 3
+Output: 3
+Explanation: There are three ways to climb to the top.
+1. 1 step + 1 step + 1 step
+2. 1 step + 2 steps
+3. 2 steps + 1 step
+
+class Solution {
+public:
+    int climbStairs(int n) {
+        // base cases
+        if(n <= 0) return 0;
+        if(n == 1) return 1;
+        if(n == 2) return 2;
+
+        int one_step_before = 2;
+        int two_steps_before = 1;
+        int all_ways = 0;
+
+        for(int i=2; i<n; i++){
+            all_ways = one_step_before + two_steps_before;
+            two_steps_before = one_step_before;
+            one_step_before = all_ways;
+        }
+        return all_ways;
+    }
+};
+
+class Solution {
+public:
+    int climbStairs(int n) {
+        if (n<=2) return n;
+        vector<int> steps(n,0);
+        steps[0]=1;
+        steps[1]=2;
+        for(int i=2;i<n;i++)
+        {
+            steps[i]=steps[i-2]+steps[i-1];
+        }
+        return steps[n-1];
+    }
+};
+
+*****************************************************************************************************
+#121 Best Time to Buy and Sell Stock
+     买卖股票的最佳时机
+*****************************************************************************************************
+If you were only permitted to complete at most one transaction
+Example 1:
+Input: [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+             Not 7-1 = 6, as selling price needs to be larger than buying price.
+
+Example 2:
+Input: [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transaction is done, i.e. max profit = 0.
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int maxPro = 0;
+        int minPrice = INT_MAX;
+        for(int i = 0; i < prices.size(); i++){
+            minPrice = min(minPrice, prices[i]);
+            maxPro = max(maxPro, prices[i] - minPrice);
+        }
+        return maxPro;
+    }
+};
+
+*****************************************************************************************************
+#53 Maximum Subarray
+    最大子序和
+*****************************************************************************************************
+containing at least one number    divide and conquer
+
+Example:
+Input: [-2,1,-3,4,-1,2,1,-5,4],
+Output: 6
+Explanation: [4,-1,2,1] has the largest sum = 6.
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int n = nums.size();
+        if (n<=0) return 0;
+        int cur = nums[0];
+        int maxi = cur;
+        
+        for(int i = 1; i < n; i++){
+            cur = nums[i] + (cur>0 ? cur : 0);
+            maxi = max(maxi, cur);
+        }
+        
+        return maxi;
+    }
+};
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        val v = helper(nums, 0, nums.size() - 1);
+		return v.m;
+    }
+
+private:
+    struct val
+    {
+        int l, m, r, s;
+        val(int l, int m, int r, int s) : l(l), m(m), r(r), s(s) {}
+    };
+
+    val helper(vector<int>& A, int left, int right) 
+	{
+		if (left == right) return val(A[left], A[left], A[left], A[left]);
+		int mid = left + (right - left) / 2;
+		val v1 = helper(A, left, mid);
+		val v2 = helper(A, mid + 1, right);
+		int l, m, r, s;
+		l = max(v1.l, v1.s + v2.l);
+		m = max(v1.r + v2.l, max(v1.m, v2.m));
+		r = max(v2.r, v1.r + v2.s);
+		s = v1.s + v2.s;
+		return val(l, m, r, s);
+	}
+};
+
+*****************************************************************************************************
+#198 House Robber
+     打家劫舍
+*****************************************************************************************************
+Example 1:
+Input: [1,2,3,1]
+Output: 4
+Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+             Total amount you can rob = 1 + 3 = 4.
+
+Example 2:
+Input: [2,7,9,3,1]
+Output: 12
+Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
+             Total amount you can rob = 2 + 9 + 1 = 12.
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if (nums.size() == 0) return 0;
+        int prev1 = 0;
+        int prev2 = 0;
+        for (int num : nums) {
+            int tmp = prev1;
+            prev1 = max(prev2 + num, prev1);
+            prev2 = tmp;
+        }
+        return prev1;
+    }
+};
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        const int n = nums.size();
+        if (n == 0) return 0;
+        if (n == 1) return nums[0];
+        if (n == 2) return max(nums[0], nums[1]);
+        vector<int> f(n, 0);
+        f[0] = nums[0];
+        f[1] = max(nums[0], nums[1]);
+        for (int i = 2; i < n; ++i)
+            f[i] = max(f[i-2] + nums[i], f[i-1]);
+        return f[n-1];
+    }
+};

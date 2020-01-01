@@ -300,10 +300,43 @@ public:
 假如给出的结点在该树中没有顺序后继的话，请返回 null
 我们保证树中每个结点的值是唯一的
 
+不需要找到p 直接找大于p的最左结点
+暂时假设p一定是存在的
+
 class Solution {
 public:
     TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
-        
+        TreeNode * res = NULL;
+        while(root) {
+            if (root->val > p->val) {
+                res = root;
+                root = root->left;
+            } else {
+                root = root->right;
+            }
+        }
+        return res;
+    }
+};
+
+栈 找到p后找右结点
+class Solution {
+public:
+    TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
+        stack<TreeNode*> s;
+        bool b = false;
+        TreeNode *t = root;
+        while (t || !s.empty()) {
+            while (t) {
+                s.push(t);
+                t = t->left;
+            }
+            t = s.top(); s.pop();
+            if (b) return t;
+            if (t == p) b = true;
+            t = t->right;
+        }
+        return NULL;
     }
 };
 

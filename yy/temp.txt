@@ -1,0 +1,373 @@
+LCCI
+1 Is Unique
+Example 1:
+
+Input: s = "leetcode"
+Output: false
+Example 2:
+
+Input: s = "abc"
+Output: true
+?
+
+Note:
+
+0 <= len(s) <= 100
+-----
+2 Check Permutation
+Example 1:
+
+Input: s1 = "abc", s2 = "bca"
+Output: true
+Example 2:
+
+Input: s1 = "abc", s2 = "bad"
+Output: false
+Note:
+
+0 <= len(s1) <= 100
+0 <= len(s2) <= 100
+-----
+3 string to url
+Example 1:
+
+Input: "Mr John Smith ", 13
+Output: "Mr%20John%20Smith"
+Explanation: 
+The missing numbers are [5,6,8,...], hence the third missing number is 8.
+Example 2:
+
+Input: "               ", 5
+Output: "%20%20%20%20%20"
+?
+
+Note:
+
+0 <= S.length <= 500000
+-----
+4 Palindrome Permutation
+Example1:
+
+Input: "tactcoa"
+Output: true（permutations: "tacocat"、"atcocta", etc.）
+-----
+5 One Away
+Example?1:
+
+Input: 
+first = "pale"
+second = "ple"
+Output: True
+Example?2:
+
+Input: 
+first = "pales"
+second = "pal"
+Output: False
+-----
+6 Compress String
+Example 1:
+
+Input: "aabcccccaaa"
+Output: "a2b1c5a3"
+Example 2:
+
+Input: "abbccd"
+Output: "abbccd"
+Explanation: 
+The compressed string is "a1b2c2d1", which is longer than the original string.
+?
+
+Note:
+
+0 <= S.length <= 50000
+-----
+
+7 Rotate Matrix
+Example 1:
+
+Given matrix = 
+[
+  [1,2,3],
+  [4,5,6],
+  [7,8,9]
+],
+
+Rotate the matrix in place. It becomes:
+[
+  [7,4,1],
+  [8,5,2],
+  [9,6,3]
+]
+Example 2:
+
+Given matrix =
+[
+  [ 5, 1, 9,11],
+  [ 2, 4, 8,10],
+  [13, 3, 6, 7],
+  [15,14,12,16]
+], 
+
+Rotate the matrix in place. It becomes:
+[
+  [15,13, 2, 5],
+  [14, 3, 4, 1],
+  [12, 6, 8, 9],
+  [16, 7,10,11]
+]
+
+-----
+8 Zero Matrix
+Example 1:
+
+Input: 
+[
+  [1,1,1],
+  [1,0,1],
+  [1,1,1]
+]
+Output: 
+[
+  [1,0,1],
+  [0,0,0],
+  [1,0,1]
+]
+Example 2:
+
+Input: 
+[
+  [0,1,2,0],
+  [3,4,5,2],
+  [1,3,1,5]
+]
+Output: 
+[
+  [0,0,0,0],
+  [0,4,5,0],
+  [0,3,1,0]
+]
+
+-----
+9 string rotation
+Example 1:
+
+Input: s1 = "waterbottle", s2 = "erbottlewat"
+Output: True
+Example 2:
+
+Input: s1 = "aa", "aba"
+Output: False
+?
+
+Note:
+
+0 <= s1.length, s1.length <=?100000
+
+
+-----
+2.1 remote duplicate node
+Example1:
+
+ Input: [1, 2, 3, 3, 2, 1]
+ Output: [1, 2, 3]
+Example2:
+
+ Input: [1, 1, 1, 1, 2]
+ Output: [1, 2]
+Note:
+
+The length of the list is within the range[0, 20000].
+The values of the list elements are within the range [0, 20000].
+Follow Up:
+
+How would you solve this problem if a temporary buffer is not allowed?
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeDuplicateNodes(ListNode* head) {
+
+    }
+};
+
+-----
+LCOF
+3 数组中重复的数字
+int findRepeatNumber(vector<int>& nums)
+示例 1：
+
+输入：
+[2, 3, 1, 0, 2, 5, 3]
+输出：2 或 3 
+ 
+
+限制：
+
+2 <= n <= 100000
+-----
+4 二维数组中的查找
+bool findNumberIn2DArray(vector<vector<int>>& matrix, int target)
+示例:
+
+现有矩阵 matrix 如下：
+
+[
+  [1,   4,  7, 11, 15],
+  [2,   5,  8, 12, 19],
+  [3,   6,  9, 16, 22],
+  [10, 13, 14, 17, 24],
+  [18, 21, 23, 26, 30]
+]
+给定 target?=?5，返回?true。
+
+给定?target?=?20，返回?false。
+
+?
+
+限制：
+
+0 <= n <= 1000
+
+0 <= m <= 1000
+
+-----
+5 替换空格
+string replaceSpace(string s)
+请实现一个函数，把字符串 s 中的每个空格替换成"%20"。
+
+?
+
+示例 1：
+
+输入：s = "We are happy."
+输出："We%20are%20happy."
+?
+
+限制：
+
+0 <= s 的长度 <= 10000
+
+-----
+6 reverse linked list
+示例 1：
+
+输入：head = [1,3,2]
+输出：[2,3,1]
+ 
+
+限制：
+
+0 <= 链表长度 <= 10000
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> reversePrint(ListNode* head)
+-----
+7 重建二叉树 105
+例如，给出
+
+前序遍历 preorder =?[3,9,20,15,7]
+中序遍历 inorder = [9,3,15,20,7]
+返回如下的二叉树：
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+
+
+
+-----
+9 两个栈实现队列
+用两个栈实现一个队列。队列的声明如下，请实现它的两个函数 appendTail 和 deleteHead ，分别完成在队列尾部插入整数和在队列头部删除整数的功能。(若队列中没有元素，deleteHead?操作返回 -1 )
+
+?
+
+示例 1：
+
+输入：
+["CQueue","appendTail","deleteHead","deleteHead"]
+[[],[3],[],[]]
+输出：[null,null,3,-1]
+示例 2：
+
+输入：
+["CQueue","deleteHead","appendTail","appendTail","deleteHead","deleteHead"]
+[[],[],[5],[2],[],[]]
+输出：[null,-1,null,null,5,2]
+提示：
+
+1 <= values <= 10000
+最多会对?appendTail、deleteHead 进行?10000?次调用
+class CQueue {
+public:
+    CQueue() {
+
+    }
+    
+    void appendTail(int value) {
+
+    }
+    
+    int deleteHead() {
+
+    }
+};
+
+/**
+ * Your CQueue object will be instantiated and called as such:
+ * CQueue* obj = new CQueue();
+ * obj->appendTail(value);
+ * int param_2 = obj->deleteHead();
+ */
+
+-----
+10I 斐波那契 509
+示例 1：
+
+输入：n = 2
+输出：1
+示例 2：
+
+输入：n = 5
+输出：5
+
+
+-----
+10II 青蛙跳台阶 70
+示例 1：
+
+输入：n = 2
+输出：2
+示例 2：
+
+输入：n = 7
+输出：21
+示例 3：
+
+输入：n = 0
+输出：1
+提示：
+
+0 <= n <= 100
+
+
+
+

@@ -248,8 +248,12 @@ instrumental
 generate
 threat
 manual
-converge
-default
+converge vi. (of lines) tend to meet at a point.
+default n. 1 Failure to fulfill an obligation, especially to repay a loan or appear in a court of law.
+           2 A preselected option adopted by a computer program or other mechanism when no alternative is specified by the user or 
+             programmer.
+        vi. 1 Fail to fulfill an obligation, especially to repay a loan or to appear in a court of law.
+            2 (default to) (of a computer program or other mechanism) revert automatically to (a preselected option)
 
 
 ##################################################
@@ -365,7 +369,8 @@ specimen
 audience
 collision
 constitute
-defer
+defer vi. Put off (an action or event) to a later time; postpone.
+      vt. (defer to) Submit humbly to (a person or a person's wishes or qualities)
 headquarters
 alert
 plentiful
@@ -432,7 +437,7 @@ tuition
 heave
 enthusiasm
 pope
-defendant
+defendant n. An individual, company, or institution sued or accused in a court of law.
 edible
 supervise
 likewise
@@ -451,8 +456,12 @@ funeral
 mobilize
 feminine
 combat
-embryo
-herald
+embryo n. 1 An unborn or unhatched offspring in the process of development, in particular a human offspring during the period from 
+            approximately the second to the eighth week after fertilization (after which it is usually termed a fetus).
+          2 A thing at a rudimentary stage that shows potential for development.
+herald n. 1 An official messenger bringing news.
+          2 A person or thing viewed as a sign that something is about to happen.
+       vt. Be a sign that (something) is about to happen.
 
 
 ##################################################
@@ -517,7 +526,9 @@ carbohydrate
 contrary
 numerical
 junior
-overhaul
+overhaul vt. 1 Take apart (a piece of machinery or equipment) in order to examine it and repair it if necessary.
+             2 Overtake (someone), especially in a sporting event.
+         n. A thorough examination of machinery or a system, with repairs or changes made if necessary.
 discourse
 
 
@@ -630,7 +641,13 @@ liner
 spectrum
 dash
 symmetry
-bail
+bail n. 1 The temporary release of an accused person awaiting trial, sometimes on condition that a sum of money be lodged to 
+          guarantee their appearance in court.
+        2 A bar on a typewriter or computer printer that holds the paper steady.
+        3 A bar or pole separating horses in an open stable.
+        4 An arched handle, such as on a bucket or a teapot.
+     vt. Release or secure the release of (a prisoner) on payment of bail.
+     v. [no object] Scoop water out of a boat or ship.
 instability
 hay
 embassy
@@ -670,7 +687,8 @@ prototype
 ##################################################
 unit09
 ##################################################
-hormone
+hormone n. A regulatory substance produced in an organism and transported in tissue fluids such as blood or sap to stimulate specific 
+           cells or tissues into action.
 petroleum
 revolt
 disclose
@@ -702,7 +720,11 @@ cliff
 academy
 illusion
 sore
-portfolio
+portfolio n. 1 A large, thin, flat case for loose sheets of paper such as drawings or maps.
+             2 A range of investments held by a person or organization.
+             3 The position and duties of a minister of state or a member of a cabinet.
+          adj. Relating to, denoting, or engaged in an employment pattern that involves a succession of short-term contracts and 
+               part-time work, rather than the more traditional model of a long-term single job.
 dose
 deposit
 desplacement
@@ -1026,7 +1048,7 @@ engineering
 limitation
 prime
 envisage
-dioxide
+dioxide n. An oxide containing two atoms of oxygen in its molecule or empirical formula.
 agreeable
 authentic
 highlight
@@ -1038,7 +1060,7 @@ pulse
 biography
 provided
 designate
-plaintiff
+plaintiff n. A person who brings a case against another in a court of law.
 avert
 hover
 vivid
@@ -1081,7 +1103,7 @@ legal
 unit15
 ##################################################
 erosion
-complicate
+complicate vt. Make (something) more difficult or confusing by causing it to be more complex.
 versus
 fasten
 perplex
@@ -1104,13 +1126,15 @@ loop
 roar
 ultraviolet
 abdomen
-memorandum
+memorandum n. A written message in business or diplomacy.
 foundation
 embarrass
 jar
 approve
 novel
-involve
+involve vt. (of a situation or event) include (something) as a necessary part or result.
+            Cause (a person or group) to experience or participate in an activity or situation.
+            (be involved) Be engaged in an emotional or personal relationship.
 emperor
 catheral
 analogy
@@ -1144,7 +1168,10 @@ loose
 ornament
 overlap
 senate
-taboo
+taboo n. A social or religious custom prohibiting or forbidding discussion of a particular practice or forbidding association with a 
+         particular person, place, or thing.
+      adj. Prohibited or restricted by social custom.
+      vt. Place under prohibition.
 eclipse
 
 
@@ -1152,7 +1179,8 @@ eclipse
 unit16
 ##################################################
 weary
-genre
+genre n. A category of artistic composition, as in music or literature, characterized by similarities in form, style, or subject 
+         matter.
 industrial
 spectacular
 sympathise
@@ -1594,7 +1622,8 @@ pump
 lateral
 counsel
 sneeze
-alienate
+alienate vt. 1 Cause (someone) to feel isolated or estranged.
+             2 Transfer ownership of (property rights) to another person or group.
 raid
 agency
 exchange
@@ -1604,7 +1633,7 @@ restore
 reckon
 melody
 abrupt
-marathon
+marathon n. A long-distance running race, strictly one of 26 miles 385 yards (42.195 km)
 disrupt
 hierachy
 ozone
@@ -1612,7 +1641,11 @@ pyramid
 flash
 thrift
 pine
-concern
+concern vt. 1 Relate to; be about.
+            2 Worry (someone); make anxious.
+        n. 1 Anxiety; worry.
+           2 A matter of interest or importance to someone.
+           3 A business; a firm.
 clip
 sauce
 fable
@@ -1639,7 +1672,7 @@ layman
 porcelain
 violent
 mechanism
-inagurate vt. Begin or introduce (a system, policy, or period)
+inaugurate vt. Begin or introduce (a system, policy, or period)
 
 
 ##################################################
@@ -1751,10 +1784,18 @@ trait
 commend
 notion
 pave
-guarantee
+guarantee n. 1 A formal promise or assurance (typically in writing) that certain conditions will be fulfilled, especially that a      
+               product will be repaired or replaced if not of a specified quality and durability.
+             2 A formal pledge to pay another person's debt or to perform another person's obligation in the case of default.
+          vi. Provide a formal assurance or promise, especially that certain conditions shall be fulfilled relating to a product, 
+              service, or transaction.
 unload
 ensure
-buzz
+buzz n. 1 A low, continuous humming or murmuring sound, made by or similar to that made by an insect.
+        2 An atmosphere of excitement and activity.
+     vi. 1 Make a low, continuous humming sound.
+         2 with adverbial of direction Move quickly or busily.
+         3 (usually be buzzing with) (of a place) have an air of excitement or be full of lively activity.
 index
 intercourse
 shrug
@@ -2055,7 +2096,8 @@ recede
 unit29
 ##################################################
 bald
-manifest
+manifest adj. Clear or obvious to the eye or mind.
+         vt. Display or show (a quality or feeling) by one's acts or appearance; demonstrate.
 channel
 comparable
 bundle
@@ -2288,7 +2330,14 @@ rap
 diagnose
 leaflet
 temporary
-trial
+trial n. 1 A formal examination of evidence before a judge, and typically before a jury, in order to decide guilt in a case of 
+           criminal or civil proceedings. 审讯;审理;审判
+         2 A test of the performance, qualities, or suitability of someone or something. 试验,试用/试用,尝试
+           An athletic contest to test the ability of players eligible for selection to a team. 预赛
+         3 A person, thing, or situation that tests a person's endurance or forbearance.
+           令人伤脑筋的事;惹麻烦的人;考验[+(to sb)]
+      v. 1 [with object] Test (something, especially a new product) to assess its suitability or performance. 测试,试验
+         2 [no object] (of a horse, dog, or other animal) compete in trials.
 necessitate
 disperse
 despatch
@@ -2385,7 +2434,8 @@ capacity
 range
 invisible
 metaphor
-verdict
+verdict n. A decision on a disputed issue in a civil or criminal case or an inquest.
+           An opinion or judgment.
 pebble
 groan
 plead
@@ -2831,7 +2881,7 @@ pledge
 sustain
 kingdom
 shove
-sulfur*
+sulfur
 quiver
 sow
 outline
@@ -2852,7 +2902,7 @@ agitate
 layoff
 massive
 pickup
-vapor*
+vapour
 constrain
 ashore
 faithfully
@@ -2876,7 +2926,9 @@ intersection
 destiny
 vegetation
 carriage
-prominent
+prominent adj. 1 Important; famous. 重要的,著名的
+               2 Projecting from something; protuberant. 凸现的
+               3 Situated so as to catch the attention; noticeable. 显眼的
 editorial
 ingredient
 crow
@@ -2890,7 +2942,7 @@ slot
 strawberry
 senior
 infer
-utilize*
+utilize
 preposition
 repel
 comprehensive
@@ -2914,7 +2966,7 @@ prose
 absolute
 exceedingly
 delicate
-analog*
+analogue
 circuit
 precede
 acute
@@ -2939,12 +2991,12 @@ inevitable
 monument
 erect
 acquaitance
-fantastic*
+fantastic
 locker
 dean
 likelihood
 intensity
-wagon*
+wagon
 slide
 notable
 unique
@@ -3004,7 +3056,13 @@ assemble
 conquer
 cradle
 terrify
-split
+split v. 1 Break or cause to break forcibly into parts, especially into halves or along the grain.
+         2 (with reference to a group of people) divide into two or more groups.
+      n. 1 A tear, crack, or fissure in something, especially down the middle or along the grain.
+         2 a split or the splits(in gymnastics and dance) an act of leaping in the air or sitting down with the legs straight and at 
+           right angles to the upright body, one in front and the other behind, or one at each side.
+         3 A thing that is divided or split.
+         4 The time it takes to complete a recognized part of a race, or the point in the race where such a time is measured.
 pearl
 reel
 launch
@@ -3063,7 +3121,13 @@ county
 predecessor
 susceptible
 puppet
-release
+release vt 1 Allow or enable to escape from confinement; set free.
+           2 Allow (something) to move, act, or flow freely.
+           3 Allow (information) to be generally available.
+           4 Remit or discharge (a debt)
+        n 1 The action or process of releasing or being released.
+          2 The action of making a movie, recording, or other product available for general viewing or purchase.
+          3 The action of releasing property, money, or a right to another.
 colleague
 arrest
 shift
@@ -3134,7 +3198,7 @@ wreath
 brass
 transcend
 turnover
-summarize*
+summarize
 allege
 longitude
 forbid
@@ -3152,7 +3216,7 @@ formidable
 defect
 pathetic
 rug
-archeology*
+archaeology
 so-called
 
 
@@ -3215,7 +3279,7 @@ impetus
 perform
 punctual
 boycott
-license*
+license
 alphabet
 litter
 overcome
@@ -3333,7 +3397,7 @@ territory
 giant
 economics
 ignite
-civilize*
+civilize
 treason
 pursuit
 column
@@ -3375,7 +3439,8 @@ premium
 elite
 preserve
 imitate
-staircase* stairway
+staircase
+stairway
 significant
 surpass
 compassion
@@ -3385,7 +3450,7 @@ brilliant
 liberty
 bulk
 cope
-aluminum*
+aluminum
 porter
 acclaim
 disastrous
@@ -3455,7 +3520,7 @@ clergy
 destructive
 sole
 gut
-pralyze*
+paralyze
 calculate
 yield
 blossom
@@ -3496,8 +3561,8 @@ counter
 alarm
 jargon
 identification
-analyze*
-civilization*
+analyse
+civilization
 milirary
 circumstance
 awful
@@ -3513,12 +3578,566 @@ grain
 ##################################################
 unit50
 ##################################################
-
+rack
+pepper
+embody
+precaution
+oval
+empire
+awkward
+conscious
+complement
+fiction
+accustom
+resistance
+champion
+obedience
+laboratory
+sway
+opaque
+perspective
+interview
+superstition
+holder
+alternative
+thorn
+bewilder
+cargo
+turmoil
+auditorium
+arithmetic
+distress
+panic
+civilian
+wicked
+stock
+sympathetic
+approximate
+hydrogen
+creep
+pond
+ritual
+adapt
+irritate
+fur
+shed
+curb
+accountant
+ascend
+royal
+specific
+hitherto
+rear
+enquire
+ethic
+recession
 
 ##################################################
 unit99
 ##################################################
+abase
+abdicate
+abolition
+abreast
+abstain
+accede
+additive
+adept
+aeronautics
+affinicty
+ariborne
+akin
+allegation
+allergic
+allot
+amber
+amphibian
+anabolism
+anarchism
+anatomy
+anew
+annex
+antagonist
+anthropological
+anthropology
+antibacterial
+appraise
+apprehensive
+aquaitc
+archaelogist
+arduous
+arid
+artifice
+artillery
+arthritis
+ascribe
+aspiration
+aspirin
+assent
+assort
+astrology
+astrophysicist
+attentively
+authorize
+avenge
+backbone
+backdrop
+baffle
+bakery
+barrenness
+barter
+berry
+besiege
+biomedical
+blanch
+bland
+blockade
+blockage
+blot
+bluff
+bombard
+bravery
+breakout
+breakthrough
+brood
+brotherhood
+Buddhist
+bust
+by-product
+calamity
+calculus
+calf
+caption
+carefree
+catalyze
+cataract
+causal
+censor
+centralization
+championship
+chargeable
+cheery
+chimpanzee
+cholesterol
+chromosome
+chunk
+circulation
+clique
+coffin
+cog
+colossal
+comeback
+competence
+complexion
+compliance
+compulsion
+confound
+congestion
+connotation
+consequent
 
+--------
+conserve
+consul
+contention
+coral
+corporate
+corpse
+corrosive
+counterbalance
+coverage
+cram
+crater
+credible
+Danube
+dearth
+debase
+debris
+decode
+degrade
+delinquency
+demographer
+depletion
+depreciate
+detrimental
+devalue
+devour
+discerning
+disparaging
+dispassionate
+disproportionate
+disregard
+desseminate
+diverge
+divergent
+diversify
+dormant
+downscale
+downshifting
+downsizing
+drudgery
+dynamics
+egalitarian
+elude
+emancipate
+ember
+emulation
+encompass
+encroach
+engrave
+entangle
+entreat
+entrust
+envision
+enzyme
+epithet
+espionage
+euthanasia
+excavate
+excavation
+expedite
+facial
+fallacy
+fallout
+fanatic
+farfetched
+fascism
+federation
+feminist
+feverishly
+fissure
+flake
+flick
+flicker
+flip
+flowery
+flutter
+foe
+foresighted
+frenzy
+frigid
+fungus
+fury
+futurism
+futurist
+futurologist
+geophysical
+gizmo
+gland
+gratify
+gravel
+groove
+growl
+guardian
+gunpowder
+hack
+hallucination
+halo
+harass
+haunt
+headshot
+hectare
+
+--------
+heed
+helix
+highbrow
+hockey
+homicide
+honesty
+horticulture
+hospice
+hospitable
+husbandry
+hydroelectric
+hysteria
+iceberg
+icon
+impel
+impersonal
+impinge
+impoverished
+imprint
+imprison
+improper
+inborn
+inbuilt
+inclination
+incoming
+incomplete
+indistinct
+ineptly
+inexorable
+infection
+infest
+infuriate
+innate
+innovate
+insane
+insidious
+intake
+intent
+interplay
+interlocking
+intranet
+inventive
+invoice
+irrigation
+itinerary
+jeer
+Jew
+juggle
+keyword
+kindle
+laborsaving
+laid-off
+lavish
+lawsuit
+legible
+ligament
+light-year
+limpid
+livelihood
+lobster
+lookout
+maize
+majestic
+makeup
+mania
+manicurist
+mantle
+Mars
+matchmaker
+media
+mediate
+Medicare
+medication
+mediocrity
+merrymaking
+methodology
+microprocessor
+mighty
+milestone
+millennium
+misguided
+misuse
+modem
+modulate
+monarchy
+monk
+monoglot
+morphine
+mortify
+motorist
+motorway
+mummy
+mundane
+Muslim
+muster
+mutability
+narrowly
+navigate
+Nazism
+neon
+
+--------
+neurology
+neurologist
+newborn
+newsletter
+newsroom
+nicety
+noteworthy
+oasis
+absess
+offshore
+off-the-cuff
+olive
+oncologist
+oncoming
+online
+optimism
+outburst
+outcry
+outdated
+overrated
+oversee
+overshadow
+painstaking
+paraphrase
+passionate
+pathway
+patriarchal
+peddle
+penguin
+penicillin
+periodic
+perturbation
+pervasive
+physique
+pigmentation
+plagiarize
+plank
+popularity
+populist
+postulate
+prelude
+preservative
+primacy
+primal
+procure
+profess
+profuse
+proliferate
+pronounced
+proponent
+protestant
+psychedelic
+quadruple
+query
+quirk
+ranch
+rating
+rattlesnake
+raze
+ready-made
+rebound
+red-hot
+refrigerated
+regain
+relic
+renounce
+residue
+resounding
+revere
+rhythmical
+roadhog/road hog
+roam
+rustle
+rut
+saga
+sanitary
+sardine
+scapegoat
+schism
+sediment
+sensory
+sermon
+selective
+sneaker
+separation
+sexually
+shimmer
+shortlist
+shovel
+shrivel
+shudder
+shuffle
+sidewalk
+silt
+similarly
+site
+slash
+sledge
+slowdown
+small-minded
+
+--------
+smallpox
+smoothly
+smother
+smudge
+sneer
+soothe
+sparing
+sparse
+spatial
+spotlight
+sprawl
+squat
+squeak
+stakeholder
+stamina
+standstill
+starch
+stature
+stead
+stenographer
+sterile
+stifle
+stimulus
+stockpile
+stomp
+stout
+stow
+strait
+strand
+stratum
+subdue
+submicroscopic
+surmise
+surveillance
+suspense
+suspension
+sustenance
+swollen
+symbolize
+syndicate
+tack
+tangible
+tardy
+teens
+temperate
+template
+terrestrial
+tinge
+tonic
+tornado
+tort
+tortuous
+tournament
+transcribe
+transfusion
+translucent
+traverse
+trickle
+trigonometry
+trillion
+trot
+trustworthy
+turtle
+ulcer
+undercover
+underprivileged
+undue
+unearth
+unilateralism
+upbringing
+uplifting
+uranium
+vaccination
+vaunt
+vendor
+vertebrate
+viable
+vibration
+vigilance
+volatile
+wade
+wait-and-see
+warranty
+waver
+wharf
+whereby
+whirlwind
+wholesale
+wield
+wither
+woodcut
+wrath
+yearn
+yellowish
+zest
 
 
 ##################################################

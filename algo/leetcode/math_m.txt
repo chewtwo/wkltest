@@ -1,0 +1,389 @@
+Medium - Math
+
+202.Happy Number
+    快乐数
+172.Factorial Trailing Zeroes
+    阶乘后的零
+171.Excel Sheet Column Number
+    Excel表列序号
+50.Pow(x, n)
+69.Sqrt(x)
+   x 的平方根
+29.Divide Two Integers
+   两数相除
+166.Fraction to Recurring Decimal
+    分数到小数
+
+*****************************************************************************************************
+#202 Happy Number
+     快乐数
+*****************************************************************************************************
+正整数每一位的平方和相加为1
+
+Example: 
+Input: 19
+Output: true
+Explanation: 
+12 + 92 = 82
+82 + 22 = 68
+62 + 82 = 100
+12 + 02 + 02 = 1
+
+class Solution {
+public:
+    bool isHappy(int n) {
+        set<int> inLoop = {};
+        int squareSum,remain;
+        while (inLoop.insert(n).second) {
+            squareSum = 0;
+            while (n > 0) {
+                remain = n%10;
+                squareSum += remain*remain;
+                n /= 10;
+            }
+            if (squareSum == 1)
+                return true;
+            else
+                n = squareSum;
+
+        }
+        return false;
+    }
+};
+
+class Solution {
+public:
+    bool isHappy(int n) {
+        int slow, fast;
+        slow = fast = n;
+        do {
+            slow = digitSquareSum(slow);
+            fast = digitSquareSum(fast);
+            fast = digitSquareSum(fast);
+        } while(slow != fast);
+        if (slow == 1) return 1;
+        else return 0;
+    }
+
+private:
+    int digitSquareSum(int n) {
+        int sum = 0, tmp;
+        while (n) {
+            tmp = n % 10;
+            sum += tmp * tmp;
+            n /= 10;
+        }
+        return sum;
+    }
+};
+
+*****************************************************************************************************
+#172 Factorial Trailing Zeroes
+     阶乘后的零
+*****************************************************************************************************
+Example 1:
+Input: 3
+Output: 0
+Explanation: 3! = 6, no trailing zero.
+
+Example 2:
+Input: 5
+Output: 1
+Explanation: 5! = 120, one trailing zero.
+
+class Solution {
+public:
+    int trailingZeroes(int n) {
+        return n == 0 ? 0 : n / 5 + trailingZeroes(n / 5);
+    }
+};
+
+*****************************************************************************************************
+#171 Excel Sheet Column Number
+     Excel表列序号
+*****************************************************************************************************
+Example 1:
+Input: "A"
+Output: 1
+
+Example 2:
+Input: "AB"
+Output: 28
+
+Example 3:
+Input: "ZY"
+Output: 701
+
+class Solution {
+public:
+    int titleToNumber(string s) {
+        int result = 0;
+        for (int i = 0; i < s.size(); result = result * 26 + (s.at(i) - 'A' + 1), i++);
+        return result;
+    }
+};
+
+*****************************************************************************************************
+#50 Pow(x, n)
+*****************************************************************************************************
+x^n
+Example 1:
+Input: 2.00000, 10
+Output: 1024.00000
+
+Example 2:
+Input: 2.10000, 3
+Output: 9.26100
+
+Example 3:
+Input: 2.00000, -2
+Output: 0.25000
+Explanation: 2^-2 = 1/2^2 = 1/4 = 0.25
+
+Note:
+-100.0 < x < 100.0
+n is a 32-bit signed integer, within the range [−231, 231 − 1]
+
+快速幂算法（递归）
+class Solution {
+public:
+    double fastPow(double x, long long n) {
+        if (n == 0) {
+            return 1.0;
+        }
+        double half = fastPow(x, n / 2);
+        if (n % 2 == 0) {
+            return half * half;
+        } else {
+            return half * half * x;
+        }
+    }
+    double myPow(double x, int n) {
+        long long N = n;
+        if (N < 0) {
+            x = 1 / x;
+            N = -N;
+        }
+        return fastPow(x, N);
+    }
+};
+
+快速幂算法（循环）
+class Solution {
+public:
+    double myPow(double x, int n) {
+        long long N = n;
+        if (N < 0) {
+            x = 1 / x;
+            N = -N;
+        }
+        double ans = 1;
+        double current_product = x;
+        for (long long i = N; i ; i /= 2) {
+            if ((i % 2) == 1) {
+                ans = ans * current_product;
+            }
+            current_product = current_product * current_product;
+        }
+        return ans;
+    }
+};
+
+*****************************************************************************************************
+#69 Sqrt(x)
+    x 的平方根
+*****************************************************************************************************
+Example 1:
+Input: 4
+Output: 2
+
+Example 2:
+Input: 8
+Output: 2
+Explanation: The square root of 8 is 2.82842..., and since 
+             the decimal part is truncated, 2 is returned.
+
+class Solution {
+public:
+    int mySqrt(int x) {
+        if (x == 0)
+            return 0;
+        int left = 1, right = INT_MAX;
+        while (true) {
+            int mid = left + (right - left)/2;
+            if (mid > x/mid) {
+                right = mid - 1;
+            } else {
+                if (mid + 1 > x/(mid + 1))
+                    return mid;
+                left = mid + 1;
+            }
+        }
+    }
+};
+
+class Solution {
+public:
+    int mySqrt(int x) {
+        long r = x;
+        while (r*r > x)
+            r = (r + x/r) / 2;
+        return (int)r;
+    }
+};
+
+class Solution {
+public:
+    int mySqrt(int x) {
+        if(x==0)
+            return 0;
+        int h=0;
+        while((long)(1<<h)*(long)(1<<h)<=x) // firstly, find the most significant bit
+            h++;
+        h--;
+        int b=h-1;
+        int res=(1<<h);
+        while(b>=0){  // find the remaining bits
+            if((long)(res | (1<<b))*(long)(res |(1<<b))<=x)
+                res|=(1<<b);
+            b--;
+        }
+        return res;
+    }
+};
+
+*****************************************************************************************************
+#29 Divide Two Integers
+    两数相除
+*****************************************************************************************************
+The divisor will never be 0
+
+Example 1:
+Input: dividend = 10, divisor = 3
+Output: 3
+
+Example 2:
+Input: dividend = 7, divisor = -3
+Output: -2
+
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        if (dividend == INT_MIN && divisor == -1) {
+            return INT_MAX;
+        }
+        long dvd = labs(dividend), dvs = labs(divisor), ans = 0;
+        int sign = dividend > 0 ^ divisor > 0 ? -1 : 1;
+        while (dvd >= dvs) {
+            long temp = dvs, m = 1;
+            while (temp << 1 <= dvd) {
+                temp <<= 1;
+                m <<= 1;
+            }
+            dvd -= temp;
+            ans += m;
+        }
+        return sign * ans;
+    }
+};
+
+*****************************************************************************************************
+#166 Fraction to Recurring Decimal
+     分数到小数
+*****************************************************************************************************
+If the fractional part is repeating, enclose the repeating part in parentheses.
+
+Example 1:
+Input: numerator = 1, denominator = 2
+Output: "0.5"
+
+Example 2:
+Input: numerator = 2, denominator = 1
+Output: "2"
+
+Example 3:
+Input: numerator = 2, denominator = 3
+Output: "0.(6)"
+
+// error
+class Solution {
+public:
+    string fractionToDecimal(int numerator, int denominator) {
+        // zero numerator
+        if (numerator == 0) return "0";
+
+        string res;
+        // determine the sign
+        if (numerator < 0 ^ denominator < 0) res += '-';
+
+        // remove sign of operands
+        numerator = abs(numerator), denominator = abs(denominator);
+
+        // append integral part
+        res += to_string(numerator / denominator);
+
+        // in case no fractional part
+        if (numerator % denominator == 0) return res;
+
+        res += '.';
+
+        unordered_map<int, int> map;
+
+        // simulate the division process
+        for (int r = numerator % denominator; r; r %= denominator) {
+
+            // meet a known remainder
+            // so we reach the end of the repeating part
+            if (map.count(r) > 0) {
+                res.insert(map[r], 1, '(');
+                res += ')';
+                break;
+            }
+
+            // the remainder is first seen
+            // remember the current position for it
+            map[r] = res.size();
+
+            r *= 10;
+
+            // append the quotient digit
+            res += to_string(r / denominator);
+        }
+
+        return res;
+    }
+};
+
+class Solution {
+public:
+    string fractionToDecimal(int numerator, int denominator) {
+        if (!numerator) {
+            return "0";
+        }
+        string ans;
+        if (numerator > 0 ^ denominator > 0) {
+            ans += '-';
+        }
+        long n = labs(numerator), d = labs(denominator), r = n % d;
+        ans += to_string(n / d);
+        if (!r) {
+            return ans;
+        }
+        ans += '.';
+        unordered_map<long, int> rs;
+        while (r) {
+            if (rs.find(r) != rs.end()) {
+                ans.insert(rs[r], "(");
+                ans += ')';
+                break;
+            }
+            rs[r] = ans.size();
+            r *= 10;
+            ans += to_string(r / d);
+            r %= d;
+        }
+        return ans;
+    }
+};
+
+

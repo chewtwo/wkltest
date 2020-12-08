@@ -1,0 +1,183 @@
+Hard - Math
+
+179.Largest Number
+    最大数
+149.Max Points on a Line
+    直线上最多的点数
+
+*****************************************************************************************************
+#179 Largest Number
+     最大数
+*****************************************************************************************************
+Example 1:
+Input: [10,2]
+Output: "210"
+
+Example 2:
+Input: [3,30,34,5,9]
+Output: "9534330"
+
+class Solution {
+public:
+    string largestNumber(vector<int>& nums) {
+        vector<string> arr;
+        for(auto i:nums)
+            arr.push_back(to_string(i));
+        sort(begin(arr), end(arr), [](string &s1, string &s2){ return s1+s2>s2+s1; });
+        string res;
+        for(auto s:arr)
+            res+=s;
+        while(res[0]=='0' && res.length()>1)
+            res.erase(0,1);
+        return  res;
+    }
+};
+
+*****************************************************************************************************
+#149 Max Points on a Line
+     直线上最多的点数
+*****************************************************************************************************
+Example 1:
+Input: [[1,1],[2,2],[3,3]]
+Output: 3
+Explanation:
+^
+|
+|        o
+|     o
+|  o  
++------------->
+0  1  2  3  4
+
+Example 2:
+Input: [[1,1],[3,2],[5,3],[4,1],[2,3],[1,4]]
+Output: 4
+Explanation:
+^
+|
+|  o
+|     o        o
+|        o
+|  o        o
++------------------->
+0  1  2  3  4  5  6
+
+// error
+// expect 2 output 3 [[0,0],[94911151,94911150],[94911152,94911151]]
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        int result = 0;
+        for(int i = 0; i < points.size(); i++){
+            int samePoint = 1;
+            unordered_map<double, int> map;
+            for(int j = i + 1; j < points.size(); j++){
+                if(points[i][0] == points[j][0] && points[i][1] == points[j][1]){
+                    samePoint++;
+                }
+                else if(points[i][0] == points[j][0]){
+                    map[INT_MAX]++;
+                }
+                else{
+                    double slope = double(points[i][1] - points[j][1]) / double(points[i][0] - points[j][0]);
+                    map[slope]++;
+                }
+            }
+            int localMax = 0;
+            for(auto it = map.begin(); it != map.end(); it++){
+                localMax = max(localMax, it->second);
+            }
+            localMax += samePoint;
+            result = max(result, localMax);
+        }
+        return result;
+    }
+};
+
+// double -> long double
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        int result = 0;
+        for(int i = 0; i < points.size(); i++){
+            int samePoint = 1;
+            unordered_map<long double, int> map;
+            for(int j = i + 1; j < points.size(); j++){
+                if(points[i][0] == points[j][0] && points[i][1] == points[j][1]){
+                    samePoint++;
+                }
+                else if(points[i][0] == points[j][0]){
+                    map[INT_MAX]++;
+                }
+                else{
+                    long double slope = (long double)(points[i][1] - points[j][1]) / (long double)(points[i][0] - points[j][0]);
+                    map[slope]++;
+                }
+            }
+            int localMax = 0;
+            for(auto it = map.begin(); it != map.end(); it++){
+                localMax = max(localMax, it->second);
+            }
+            localMax += samePoint;
+            result = max(result, localMax);
+        }
+        return result;
+    }
+};
+
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        if(points.size()<2) return points.size();
+        
+        int result=0;
+        
+        for(int i=0; i<points.size(); i++) {
+            
+            map<pair<int, int>, int> lines;
+            int localmax=0, overlap=0, vertical=0;
+            
+            for(int j=i+1; j<points.size(); j++) {
+                
+                if(points[j][0]==points[i][0] && points[j][1]==points[i][1]) {
+                    
+                    overlap++;
+                    continue;
+                }
+                else if(points[j][0]==points[i][0]) vertical++;
+                else {
+                    
+                    int a=points[j][0]-points[i][0], b=points[j][1]-points[i][1];
+                    int gcd=GCD(a, b);
+                    
+                    a/=gcd;
+                    b/=gcd;
+                    
+                    lines[make_pair(a, b)]++;
+                    localmax=max(lines[make_pair(a, b)], localmax);
+                }
+
+                localmax=max(vertical, localmax);
+            }
+            
+            result=max(result, localmax+overlap+1);
+        }
+        
+        return result;
+    }
+private:
+    int GCD(int a, int b) {
+        
+        if(b==0) return a;
+        else return GCD(b, a%b);
+    }
+};
+
+
+
+
+
+
+
+
+
